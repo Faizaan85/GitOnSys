@@ -1,0 +1,86 @@
+<?php
+    class Order_model extends CI_Model
+    {
+        public function __construct()
+        {
+//            $this->load->database();
+        }
+
+        public function get_orders($cond = "ALL") //
+        {
+            if($cond == "ALL")
+            {
+                $query = $this->db->order_by('OmId','DESC')->get('ordermaster');
+                return $query->result_array();
+            }
+            else
+            {
+                $query = $this->db->get_where('ordermaster', array('OmId'=>$cond));
+                return $query->row_array();
+            }
+
+        }
+        public function get_order($omid)
+        {
+            $query = $this->db->get_where('orderitems', array('OiOmId'=>$omid));
+            return $query->result_array();
+        }
+        public function post_order($userid)
+        {
+
+			// Array for ordermaster
+	        $order = array(
+	            'OmCompanyName' => $this->input->post('name'),
+	            'OmCreatedOn' => $this->input->post('date'),
+	            'OmLpo' => $this->input->post('lpo'),
+				'OmCreatedBy' => $userid
+	        );
+			// Array for orderitems
+	        $orderdata = $this->input->post('orderdata');
+			// Saving process begins
+            $this->db->trans_begin();
+            $this->db->insert('ordermaster',$order);
+            $insert_id = $this->db->insert_id();
+
+            for($i=0;$i<count($orderdata);$i++)
+            {
+                $insertdata = array(
+                    'OiOmId' => $insert_id,
+                    'OiPartNo' => $orderdata[$i][0],
+                    'OiSupplierNo' => $orderdata[$i][1],
+                    'OiDescription' => $orderdata[$i][2],
+                    'OiRightQty' => $orderdata[$i][3],
+                    'OiLeftQty' => $orderdata[$i][4],
+                    'OiTotalQty' => $orderdata[$i][5],
+                    'OiPrice' => $orderdata[$i][6]
+                );
+                $this->db->insert('orderitems',$insertdata);
+            }
+            if($this->db->trans_status() === FALSE)
+            {
+                $this->db->trans_rollback();
+				return "ERROR in Transaction";
+            }
+            else
+            {
+                $this->db->trans_commit();
+                return $insert_id;
+            }
+        }
+        public function order_item_state($state)
+        {
+            // To update record set OiStatus with $state['OiStatus']
+            $this->db->set('OiStatus', $state['OiStatus']);
+            // With Following Conditions
+            if(isset($state['OiTotalQty']))
+            {
+                $this->db->set('OiTotalQty', $state['OiTotalQty']);
+                $this->db->set('OiLeftQty', $state['OiLeftQty']);
+                $this->db->set('OiRightQty', $state['OiRightQty']);
+            }
+            $this->db->where('OiId',$state['OiId']);
+            $this->db->where('OiOmId',$state['OiOmId']);
+            // Return the result of the query.
+            return $this->db->update('orderitems');
+        }
+    }

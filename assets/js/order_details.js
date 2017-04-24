@@ -48,7 +48,7 @@ function change_row_state($orderid, $tr, $state, $lqty, $rqty, $tqty)
     {
         $.ajax({
                 type: "POST",
-                url: "./orders/order_item_state",
+                url: "../orders/order_item_state",
                 dataType: 'json',
                 data: $data,
                 success: function(res)
@@ -112,7 +112,7 @@ $(document).ready(function()
 		var state = ($("#"+storeName).attr("data-state") == 0)? 1 : 0;
 		$.ajax({
                 type: "POST",
-                url: "./orders/set_store_state",
+                url: "../orders/set_store_state",
                 dataType: 'json',
                 data: {
 					orderid: orderId,
@@ -121,7 +121,7 @@ $(document).ready(function()
 				},
                 success: function(res)
                 {
-					console.log(log);
+					console.log(res);
                 }
             });
 

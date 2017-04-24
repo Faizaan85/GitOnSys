@@ -106,7 +106,8 @@ class Orders extends CI_Controller
 	{
 		$this->load->model('order_model');
 		$result = $this->order_model->set_store_state();
-		
+		echo json_encode($result);
+
 	}
 
 }

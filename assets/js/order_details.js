@@ -121,7 +121,7 @@ $(document).ready(function()
 				},
                 success: function(res)
                 {
-					console.log(res);
+					$("#"+storeName).attr("data-state",state); // Also need to chang class but cant figure how.
                 }
             });
 

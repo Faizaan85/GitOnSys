@@ -83,4 +83,18 @@
             // Return the result of the query.
             return $this->db->update('orderitems');
         }
+		public function set_store_state()
+		{
+			// fetch post data into aray
+			$data = array(
+				'OmId' => $this->input->post('orderid'),
+				'OmStore' => $this->input->post('storename'),
+				'OmStoreState' => $this->input->post('status')
+			);
+			// set db Conditions
+			$this->db->set($data['OmStore'],$data['OmStoreState']);
+			$this->db->where('OmId',$data['OmId']);
+			// Return the result of the query
+			return $this->db->update('ordermaster');
+		}
     }

@@ -107,8 +107,20 @@ $(document).ready(function()
 	// Store1 or store2 button clicked
 	$("#OmStore1,#OmStore2").on('click',function(e)
 	{
-		var storeNum = e.target.id;
-
+		var storeName = e.target.id;
+		var orderId = $("#omid").attr("data-omid");
+		var state = ($("#"+storeName).attr("data-state") == 0)? 1 : 0; 
+		$.ajax({
+                type: "POST",
+                url: "./orders/order_item_state",
+                dataType: 'json',
+                data: $data,
+                success: function(res)
+                {
+                    $tr.attr("class",$state);
+                    console.log(res);
+                }
+            });
 
 	});
 

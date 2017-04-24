@@ -109,16 +109,19 @@ $(document).ready(function()
 	{
 		var storeName = e.target.id;
 		var orderId = $("#omid").attr("data-omid");
-		var state = ($("#"+storeName).attr("data-state") == 0)? 1 : 0; 
+		var state = ($("#"+storeName).attr("data-state") == 0)? 1 : 0;
 		$.ajax({
                 type: "POST",
-                url: "./orders/order_item_state",
+                url: "./orders/set_store_state",
                 dataType: 'json',
-                data: $data,
+                data: {
+					orderid: orderId,
+					storename: storeName,
+					status: state
+				},
                 success: function(res)
                 {
-                    $tr.attr("class",$state);
-                    console.log(res);
+					console.log(log);
                 }
             });
 

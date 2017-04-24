@@ -121,6 +121,8 @@ $(document).ready(function()
 				},
                 success: function(res)
                 {
+					// primary color #337ab7
+					//  success color #5cb85c
 					$("#"+storeName).attr("data-state",state); // Also need to chang class but cant figure how.
                 }
             });

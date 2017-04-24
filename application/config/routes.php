@@ -51,7 +51,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $route['default_controller'] = 'pages/view';
 $route['orders'] = 'orders/index';
-$route['order/orders/(:any)']['POST'] = 'orders/order_item_state';
+
 $route['order/(:num)'] = 'orders/get_order_details/$1';
 $route['order/(:num)/print'] = 'orders/get_order_details/$1/$2';
 $route['neworder'] = 'orders/create_new_order';

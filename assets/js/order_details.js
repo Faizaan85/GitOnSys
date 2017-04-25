@@ -122,8 +122,8 @@ $(document).ready(function()
 				},
                 success: function(res)
                 {
-					// primary color #337ab7
-					//  success color #5cb85c
+					// primary color #337ab7 (blue color)
+					//  success color #5cb85c (green color)
 					$("#"+storeName).attr("data-state",state).css("background-color",bgColor); // Also need to chang class but cant figure how.
                 }
             });

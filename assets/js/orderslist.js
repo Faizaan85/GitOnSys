@@ -29,9 +29,9 @@ function load_orders(UlId)
 				$("#"+UlId).append(varUl);
 			});
 		},
-		error: function()
+		error: function(res)
 		{
-
+			console.log(res);
 		}
 	});
 

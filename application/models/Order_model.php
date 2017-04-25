@@ -101,8 +101,8 @@
 		{
 			// Fetch post data into array
 			$data = array(
-				'OmId' => $this->input->post('orderid');
-				'OmPrinted' => $this->input->post('status');
+				'OmId' => $this->input->post('orderid'),
+				'OmPrinted' => $this->input->post('status')
 			);
 			// Set db Conditions
 			$this->db->set('OmPrinted',$data['OmPrinted']);

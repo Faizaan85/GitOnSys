@@ -6,7 +6,7 @@ $(document).ready(function()
 		var orderId = $("#omid").attr("data-omid");
 		$.ajax({
 			type: "POST",
-			url: "../orders/set_print_state",
+			url: "../../orders/set_print_state",
 			dataType: 'json',
 			data: {
 				orderid: orderId,
@@ -16,7 +16,7 @@ $(document).ready(function()
 			{
 				// Set print button color
 				//  success color #5cb85c (green color)
-				$(this).css("background-color","#5cb85c");
+				$('#print').css("background-color","red");
 			}
 		});
 		window.print();

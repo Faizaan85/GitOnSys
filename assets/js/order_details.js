@@ -110,6 +110,7 @@ $(document).ready(function()
 		var storeName = e.target.id;
 		var orderId = $("#omid").attr("data-omid");
 		var state = ($("#"+storeName).attr("data-state") == 0)? 1 : 0;
+		var bgColor = (state == 0)? "#337ab7" : "#5cb85c";
 		$.ajax({
                 type: "POST",
                 url: "../orders/set_store_state",
@@ -123,7 +124,7 @@ $(document).ready(function()
                 {
 					// primary color #337ab7
 					//  success color #5cb85c
-					$("#"+storeName).attr("data-state",state); // Also need to chang class but cant figure how.
+					$("#"+storeName).attr("data-state",state).css("background-color",bgColor); // Also need to chang class but cant figure how.
                 }
             });
 

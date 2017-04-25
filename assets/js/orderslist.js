@@ -42,4 +42,14 @@ $(document).ready(function()
 	// Calling a function load_orders
 	load_orders("orderlist");
 
+	var BtnReload = $("#reload");
+	var BtnAutoReload = $("#autoreload");
+
+	// Event: Reload.Button.Click
+	BtnReload.on('click',function(){
+		$('#orderlist').empty();
+		load_orders("orderlist");
+	});
+
+
 });

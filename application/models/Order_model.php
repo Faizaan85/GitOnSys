@@ -97,4 +97,17 @@
 			// Return the result of the query
 			return $this->db->update('ordermaster');
 		}
+		public function set_print_state()
+		{
+			// Fetch post data into array
+			$data = array(
+				'OmId' => $this->input->post('orderid');
+				'OmPrinted' => $this->input->post('status');
+			);
+			// Set db Conditions
+			$this->db->set('OmPrinted',$data['OmPrinted']);
+			$this->db->where('OmId',$data['OmId']);
+			// Return the result of the query
+			return $this->db->update('ordermaster');
+		}
     }

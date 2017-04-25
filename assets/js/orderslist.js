@@ -46,7 +46,8 @@ $(document).ready(function()
 	var BtnAutoReload = $("#autoreload");
 
 	// Event: Reload.Button.Click
-	BtnReload.on('click',function(){
+	BtnReload.on('click',function()
+	{
 		$('#orderlist').empty();
 		load_orders("orderlist");
 	});

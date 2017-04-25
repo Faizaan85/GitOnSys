@@ -23,8 +23,12 @@ I realise the name is crappy but not gonna change as it is gonna be difficult. -
     <hr>
     <div class="row">
         <button type="button" id="print" class="btn btn-info hidden-print" value="Print">Print</button>
-        <button id="OmStore1" class="btn btn-primary">Store 1</button>
-		<button id="OmStore2" class="btn btn-primary pull-right">Store 2</button>
+		<?php
+			$store1 = ($orderinfo['OmStore1']==1? "btn-success" : "btn-primary");
+			$store2 = ($orderinfo['OmStore2']==1? "btn-success" : "btn-primary");
+		?>
+        <button id="OmStore1" data-state="<?php echo ($orderinfo['OmStore1']); ?>" class="btn <?php echo $store1; ?>">Store 1</button>
+		<button id="OmStore2" data-state="<?php echo ($orderinfo['OmStore2']); ?>" class="btn <?php echo $store2; ?> pull-right">Store 2</button>
     </div>
     <div class="row">
         <table class="table table-striped table-bordered">

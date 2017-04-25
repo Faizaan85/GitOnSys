@@ -48,7 +48,7 @@ function change_row_state($orderid, $tr, $state, $lqty, $rqty, $tqty)
     {
         $.ajax({
                 type: "POST",
-                url: "./orders/order_item_state",
+                url: "../orders/order_item_state",
                 dataType: 'json',
                 data: $data,
                 success: function(res)
@@ -107,8 +107,26 @@ $(document).ready(function()
 	// Store1 or store2 button clicked
 	$("#OmStore1,#OmStore2").on('click',function(e)
 	{
-		var storeNum = e.target.id;
-
+		var storeName = e.target.id;
+		var orderId = $("#omid").attr("data-omid");
+		var state = ($("#"+storeName).attr("data-state") == 0)? 1 : 0;
+		var bgColor = (state == 0)? "#337ab7" : "#5cb85c";
+		$.ajax({
+                type: "POST",
+                url: "../orders/set_store_state",
+                dataType: 'json',
+                data: {
+					orderid: orderId,
+					storename: storeName,
+					status: state
+				},
+                success: function(res)
+                {
+					// primary color #337ab7 (blue color)
+					//  success color #5cb85c (green color)
+					$("#"+storeName).attr("data-state",state).css("background-color",bgColor); // Also need to chang class but cant figure how.
+                }
+            });
 
 	});
 

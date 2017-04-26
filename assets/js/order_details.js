@@ -94,15 +94,12 @@ $(document).ready(function()
     $('.edit').on('click',function()
     {
         // Setting up vars for function
-        var tr = $(this).parent();
-        var orderid = $('#omid').attr("data-omid");
-        var state = "edit";
-        // Calling function
-        change_row_state(orderid, tr, state);
-        // Make Qty columns editable
-        $(this).nextAll('.RQty').attr("contenteditable","true");
-        $(this).nextAll('.LQty').attr("contenteditable","true");
-        $(this).nextAll('.TQty').attr("contenteditable",true);
+		var txtedits = $('.edit-toggle');
+		var bolisdisabled = $(this).attr('data-edit-state');
+		txtedits.attr('disabled',!bolisdisabled);
+		
+		$(this).attr('data-edit-state','true');
+		console.log(txtedits);
     });
 	// Store1 or store2 button clicked
 	$("#OmStore1,#OmStore2").on('click',function(e)

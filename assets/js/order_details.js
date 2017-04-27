@@ -73,12 +73,17 @@ $(document).ready(function()
         var tr = $(this).parent();
         var orderid = $('#omid').attr("data-omid");
         var state = "fz-success";
-        var lqty = parseInt(tr.children(".LQty").html());
-        var rqty = parseInt(tr.children(".RQty").html());
-        var tqty = parseInt(tr.children(".TQty").html());
+        var lqty = parseInt($('#txtLqty').val());
+        var rqty = parseInt($('#txtRqty').val());
+        var tqty = parseInt($('#txtTqty').val());
+		var txtedits = $('.edit-toggle');
+		var bolisdisabled = $('.edit').attr('data-editstate');
         // Calling function
         change_row_state(orderid, tr, state, lqty, rqty, tqty);
         ////console.log(tqty);
+		txtedits.attr('disabled',!bolisdisabled);
+
+		$('td.edit').attr('data-editstate','false');
     });
     // When Item is NOT Available
     $('.delete').on('click',function()
@@ -87,6 +92,7 @@ $(document).ready(function()
         var tr = $(this).parent();
         var orderid = $('#omid').attr("data-omid");
         var state = "fz-danger";
+
         // Calling function
         change_row_state(orderid, tr, state);
     });
@@ -97,13 +103,22 @@ $(document).ready(function()
         var tr = $(this).parent();
         var orderid = $('#omid').attr("data-omid");
         var state = "edit";
-        // Calling function
+		var txtedits = $('.edit-toggle');
+		var bolisdisabled = $(this).attr('data-editstate');
+		// Calling function
+
         change_row_state(orderid, tr, state);
-        // Make Qty columns editable
-        $(this).nextAll('.RQty').attr("contenteditable","true");
-        $(this).nextAll('.LQty').attr("contenteditable","true");
-        $(this).nextAll('.TQty').attr("contenteditable",true);
+
+		txtedits.attr('disabled',!bolisdisabled);
+		$(this).attr('data-editstate','true');
+
+		console.log((!bolisdisabled).toString());
     });
+	$(".qty").change(function(event)
+	{
+        console.log("qty changed");
+		$("#txtTqty").val(parseInt($("#txtLqty").val())+parseInt($("#txtRqty").val()));
+	});
 	// Store1 or store2 button clicked
 	$("#OmStore1,#OmStore2").on('click',function(e)
 	{

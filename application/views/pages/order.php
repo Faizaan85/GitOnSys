@@ -68,12 +68,19 @@ I realise the name is crappy but not gonna change as it is gonna be difficult. -
                     <?php echo ($i); ?>
                     <span class="pull-right"><span class="fa fa-check fa-lg hidden-print"></span></span>
                 </td>
-                <td class="edit"><?php echo $item['OiPartNo']; ?> <span class="pull-right"><span class="fa fa-pencil-square-o fa-lg hidden-print"></span></span></td>
+                <td class="edit" data-editstate="false"><?php echo $item['OiPartNo']; ?> <span class="pull-right"><span class="fa fa-pencil-square-o fa-lg hidden-print"></span></span></td>
                 <td class="delete"><?php echo $item['OiSupplierNo']; ?><span class="pull-right"><span class="fa fa-times fa-lg hidden-print" aria-hidden="true"></span></span></td>
                 <td><?php echo $item['OiDescription']; ?></td>
-                <td class="RQty" type='number'><?php echo $item['OiRightQty']; ?></td>
-                <td class="LQty"><?php echo $item['OiLeftQty']; ?></td>
-                <td class="TQty"><?php echo $item['OiTotalQty']; ?></td>
+
+                <td class="RQty">
+					<input type="number" id="txtRqty" class="edit-toggle qty" value="<?php echo $item['OiRightQty']; ?>" min="0" disabled="true" style="width: 50px;">
+				</td>
+                <td class="LQty">
+					<input type="number" id="txtLqty" class="edit-toggle qty" value="<?php echo $item['OiLeftQty']; ?>" min="0" disabled="true" style="width: 50px;">
+				</td>
+                <td class="TQty">
+					<input type="number" id="txtTqty" class="edit-toggle" value="<?php echo $item['OiTotalQty']; ?>" min="0" disabled="true" style="width: 60px;">
+				</td>
             </tr>
         <?php $i++;?>
         <?php endforeach; ?>

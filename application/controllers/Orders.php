@@ -30,7 +30,7 @@ class Orders extends CI_Controller
         $data['orderinfo'] = $this->order_model->get_orders($omid);
         $data['items'] = $this->order_model->get_order($omid);
         $data['title'] = ucfirst("order Details");
-        $data['js'] = "order_details.js";
+        $data['js'] = ($print == "FALSE")? "order_details.js" : "order_print.js";
         $data['autorefresh']=FALSE;
 
         $this->load->view('templates/header', $data);
@@ -107,7 +107,12 @@ class Orders extends CI_Controller
 		$this->load->model('order_model');
 		$result = $this->order_model->set_store_state();
 		echo json_encode($result);
-
+	}
+	public function set_print_state()
+	{
+		$this->load->model('order_model');
+		$result = $this->order_model->set_print_state();
+		echo json_encode($result);
 	}
 
 }

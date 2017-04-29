@@ -20,9 +20,12 @@ I realise the name is crappy but not gonna change as it is gonna be difficult. -
         </div>
     </div>
     <hr>
+    <?php $Amount = 0; ?>
     <div class="row">
         <button type="button" id="print" class="btn btn-info hidden-print" value="Print">Print</button>
-    </div>    
+	<label id="TotAmount" class="pull-right"> </label>
+    </div>
+        
     <div class="row">
         <table class="table table-striped table-bordered">
         <thead >
@@ -69,6 +72,7 @@ I realise the name is crappy but not gonna change as it is gonna be difficult. -
                 <td class="LQty"><?php echo $item['OiLeftQty']; ?></td>
                 <td class="TQty"><?php echo $item['OiTotalQty']; ?></td>
                 <td class="Price"><?php echo $item['OiPrice']?></td>
+		<?php $Amount = $Amount + ($item['OiTotalQty'] * $item['OiPrice']); ?>
             </tr>
         <?php $i++;?>    
         <?php endforeach; ?>
@@ -76,3 +80,4 @@ I realise the name is crappy but not gonna change as it is gonna be difficult. -
     </table>
     </div>		
 </div>
+<label id="TotAmountHidden" hidden><?php echo ($Amount); ?></label>

@@ -1,5 +1,6 @@
 $(document).ready(function()
 {
+	$('#TotAmount').html('Total Amount: ' + parseFloat($('#TotAmountHidden').html()).toFixed(2));
 	$('#print').click(function(event)
 	{
 		/* Act on the event */

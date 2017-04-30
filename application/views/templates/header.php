@@ -48,30 +48,34 @@
 	.fz-success {
 		background-color: #44d055 !important;
 	}
-
+	.edit-toggle{
+		border: none;
+	}
     @media print
     {
         body,html{
             margin: 0;
             padding: 0;
         }
+		div.divheader {
+
+ 		}
         .row1{
-
-
             font-size: small;
         }
         .row2{
-
-
             font-size: small;
         }
+		input{
+			border: none; !important
+		}
         table{
-            font-size: x-small;
+            font-size: small;
         }
     }
     @page
 	{
-        size: 6.3in 9.1in;
+        size: 8.27in 11.65in;
         position: relative;
     }
 

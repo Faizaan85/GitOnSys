@@ -63,10 +63,10 @@ I realise the name is crappy but not gonna change as it is gonna be difficult. -
             >
                 <td id="<?php echo ($item['OiId']); ?>" class="done">
                     <?php echo ($i); ?>
-                    <span class="pull-right"><span class="fa fa-check fa-lg hidden-print"></span></span>                    
+                                        
                 </td>
-                <td class="edit"><?php echo $item['OiPartNo']; ?> <span class="pull-right"><span class="fa fa-pencil-square-o fa-lg hidden-print"></span></span></td>
-                <td class="delete"><?php echo $item['OiSupplierNo']; ?><span class="pull-right"><span class="fa fa-times fa-lg hidden-print" aria-hidden="true"></span></span></td>
+                <td class="edit"><?php echo $item['OiPartNo']; ?> </td>
+                <td class="delete"><?php echo $item['OiSupplierNo']; ?></td>
                 <td><?php echo $item['OiDescription']; ?></td>
                 <td id="xyz" class="RQty" type='number'><?php echo $item['OiRightQty']; ?></td>
                 <td class="LQty"><?php echo $item['OiLeftQty']; ?></td>

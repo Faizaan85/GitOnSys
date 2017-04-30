@@ -71,17 +71,25 @@ $(document).ready(function()
     {
         // Setting up vars for function
         var tr = $(this).parent();
+		var trid = tr.attr('id'); //This will take the id of the row. e.g 22
         var orderid = $('#omid').attr("data-omid");
         var state = "fz-success";
-        var lqty = parseInt($('#txtLqty').val());
-        var rqty = parseInt($('#txtRqty').val());
-        var tqty = parseInt($('#txtTqty').val());
+
+		//the result will be e.g. #txtLqty22.val()
+        var lqty = parseInt($('#txtLqty'+trid).val());
+        var rqty = parseInt($('#txtRqty'+trid).val());
+        var tqty = parseInt($('#txtTqty'+trid).val());
+
+
 		var txtedits = $('.edit-toggle');
 		var bolisdisabled = $('.edit').attr('data-editstate');
         // Calling function
         change_row_state(orderid, tr, state, lqty, rqty, tqty);
         ////console.log(tqty);
-		txtedits.attr('disabled',!bolisdisabled);
+
+		$('#txtLqty'+trid).attr('disabled',!bolisdisabled);
+		$('#txtRqty'+trid).attr('disabled',!bolisdisabled);
+		$('#txtTqty'+trid).attr('disabled',!bolisdisabled);
 
 		$('td.edit').attr('data-editstate','false');
     });
@@ -101,23 +109,30 @@ $(document).ready(function()
     {
         // Setting up vars for function
         var tr = $(this).parent();
+		// Taking the Id of the tr and putting it in trid
+		var trid = tr.attr("id");
         var orderid = $('#omid').attr("data-omid");
         var state = "edit";
-		var txtedits = $('.edit-toggle');
+
 		var bolisdisabled = $(this).attr('data-editstate');
 		// Calling function
-
         change_row_state(orderid, tr, state);
 
-		txtedits.attr('disabled',!bolisdisabled);
+		$('#txtLqty'+trid).attr('disabled',!bolisdisabled);
+		$('#txtRqty'+trid).attr('disabled',!bolisdisabled);
+		$('#txtTqty'+trid).attr('disabled',!bolisdisabled);
 		$(this).attr('data-editstate','true');
 
 		console.log((!bolisdisabled).toString());
     });
 	$(".qty").change(function(event)
 	{
+		// Cannot use ID, there will be rows with same ID
+		var tr = $(this).parent().parent(); //parent is td and parent of that is tr
+		var trid = tr.attr("id");
+
         console.log("qty changed");
-		$("#txtTqty").val(parseInt($("#txtLqty").val())+parseInt($("#txtRqty").val()));
+		$("#txtTqty"+trid).val(parseInt($("#txtLqty"+trid).val())+parseInt($("#txtRqty"+trid).val()));
 	});
 	// Store1 or store2 button clicked
 	$("#OmStore1,#OmStore2").on('click',function(e)

@@ -10,12 +10,12 @@
         {
             if($cond == "ALL")
             {
-                $query = $this->db->order_by('OmId','DESC')->get('ordermaster');
+                $query = $this->db->order_by('OmId','DESC')->get('ordermaster_user');
                 return $query->result_array();
             }
             else
             {
-                $query = $this->db->get_where('ordermaster', array('OmId'=>$cond));
+                $query = $this->db->get_where('ordermaster_user', array('OmId'=>$cond));
                 return $query->row_array();
             }
 

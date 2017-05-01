@@ -60,7 +60,7 @@ I realise the name is crappy but not gonna change as it is gonna be difficult. -
                             echo "class='fz-success'";
                             break;
                         case "2":
-                            echo "class='fz-danger'";
+                            echo "class='fz-danger hidden-print'";
                             break;
                         default:
                             echo "class='warning'";

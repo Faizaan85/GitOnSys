@@ -265,7 +265,6 @@ $(document).ready(function()
 	$("#save").on('click',function(){
             var orderform = $( "#OrderForm" );
             orderform.validate();
-
             if(orderform.valid()===false || $my_global_order.length === 0)
             {
                 console.log("cant save");
@@ -273,7 +272,7 @@ $(document).ready(function()
             }
 		//console.log($my_global_order);
 		//console.log("order var above");
-
+		$(this).attr("disabled","true");
 		$.ajax({
                     type: "POST",
                     url: "orders/save_order",

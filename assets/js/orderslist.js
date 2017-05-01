@@ -1,5 +1,6 @@
 function load_orders(UlId)
 {
+	var usrlvl = (parseInt($('#username').attr("data-level"))>8)? "" : "disabled";
 	$.ajax({
 		type: "GET",
 		url: "orders/get_orderlist",
@@ -33,7 +34,7 @@ function load_orders(UlId)
 							<span class="label `+varStatus[2] +` s2 pull-right">Store 2</span>
 							<br>
 							<a href="order/`+ val["OmId"]+`" target="_blank" class="btn ` + varStatus[0] + `" role="button">Open</a>
-  		   					<a href="order/`+val["OmId"]+`/print" class="btn ` + varStatus[3] + `" role="button">Print</a>
+  		   					<a href="order/`+val["OmId"]+`/print" class="btn ` + varStatus[3] + `" role="button" `+usrlvl+` >Print</a>
   	   					</li>`;
 				$("#"+UlId).append(varUl);
 			});

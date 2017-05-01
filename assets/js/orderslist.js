@@ -28,28 +28,41 @@ function load_orders(UlId)
   	   					</li>`;
 				$("#"+UlId).append(varUl);
 			});
+
 		},
 		error: function(res)
 		{
-			console.log(res);
+			alert(res);
 		}
 	});
-
+}
+function stop_autoload(myVar)
+{
+	clearInterval(myVar);
 }
 $(document).ready(function()
 {
 	// Load orders list.
 	// Calling a function load_orders
-	load_orders("orderlist");
-
 	var BtnReload = $("#reload");
-	var BtnAutoReload = $("#autoreload");
+	load_orders("orderlist");
+	setInterval(function()
+	{
+		if(BtnReload.attr("data-state") == "TRUE")
+		{
+			$('#orderlist').empty();
+			load_orders("orderlist");
+		}
+		else
+		{
+			clearInterval();
+		}
+	}, 10000);
 
 	// Event: Reload.Button.Click
 	BtnReload.on('click',function()
 	{
-		$('#orderlist').empty();
-		load_orders("orderlist");
+		$(this).attr("data-state","FALSE").attr("class","btn btn-warning");
 	});
 
 

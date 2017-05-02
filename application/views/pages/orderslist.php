@@ -12,6 +12,9 @@
 		<div class="col-md-2">
 			<button id="s2" class="btn btn-success">Store 2</button>
 		</div>
+		<div class="col-md-2">
+			<button id="printed" class="btn btn-default">Print</button>
+		</div>
 
     </div>
     <ul id = "orderlist" class="list-group">

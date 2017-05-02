@@ -22,7 +22,6 @@ class Orders extends CI_Controller
 
 	}
 
-
     public function get_order_details($omid,$print = "FALSE")
     {
 
@@ -65,8 +64,6 @@ class Orders extends CI_Controller
 		$usrname = $this->input->post('username');
 		// get the userid from username
 		$usrid = $this->user_model->get_userid($usrname);
-
-
 		// if username not found. (only case to heppen: someone messed with the data)
 		// if($usrid == false)
 		// {
@@ -77,6 +74,25 @@ class Orders extends CI_Controller
 
 		echo json_encode($result);
     }
+// Edit order
+// /Edit order
+
+// Delete order
+	public function delete_order()
+	{
+		$usrLvl = $this->input->post('usrlvl');
+		if($usrLvl<7)
+		{
+			header('HTTP/1.1 404 Unauthorized User');
+        	header('Content-Type: application/json; charset=UTF-8');
+        	die(json_encode(array('message' => 'ERROR', 'code' => 404)));
+		}
+		$this->load->model('order_model');
+		$result = $this->order_model->delete_order();
+		echo json_encode($result);
+	}
+// /Delete Order
+
 
     public function order_item_state()
     {

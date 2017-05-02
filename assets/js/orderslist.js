@@ -1,6 +1,6 @@
 function load_orders(UlId)
 {
-	var usrlvl = (parseInt($('#username').attr("data-level"))>8)? "" : "disabled";
+	var usrlvl = (parseInt($('#username').attr("data-level"))>8)? "" : "hidden";
 	$.ajax({
 		type: "GET",
 		url: "orders/get_orderlist",
@@ -26,15 +26,18 @@ function load_orders(UlId)
 					(val['OmPrinted']==0)? "btn-default" : "btn-success"
 				]
 
-				varUl = `<li class="list-group-item `+liHideState+`">
+				varUl = `<li class="list-group-item `+liHideState+`" data-omid="`+val["OmId"]+`">
 							<p>Order #:`+val["OmId"]+`</p>
+							<button class="del `+usrlvl+`btn btn-danger btn-xs pull-right" onClick="delete_click(`+val["OmId"]+`)">
+								<span class="glyphicon glyphicon-trash"></span>
+							</button>
 							<p>Name :`+ val["OmCompanyName"]+`</p>
 							<span class="label `+varStatus[1] +` s1 pull-right">Store 1</span>
 							<p>LPO :`+ val["OmLpo"]+`</p>
 							<span class="label `+varStatus[2] +` s2 pull-right">Store 2</span>
 							<br>
 							<a href="order/`+ val["OmId"]+`" target="_blank" class="btn ` + varStatus[0] + `" role="button">Open</a>
-  		   					<a href="order/`+val["OmId"]+`/print" class="btn ` + varStatus[3] + `" role="button" `+usrlvl+` >Print</a>
+  		   					<a href="order/`+val["OmId"]+`/print" class="btn ` + varStatus[3] + ` `+usrlvl+`" role="button"  >Print</a>
   	   					</li>`;
 				$("#"+UlId).append(varUl);
 			});
@@ -49,6 +52,40 @@ function load_orders(UlId)
 function stop_autoload(myVar)
 {
 	clearInterval(myVar);
+}
+function delete_click(omid)
+{
+	console.log("delete button clicked");
+	var liEl = $('li[data-omid="'+omid+'"]');
+	var omid = parseInt($(liEl).attr('data-omid'));
+	var usrlvl = parseInt($('#username').attr("data-level"));
+	// Put confirm dialogue box here
+	if (confirm('Are you sure you want to Delete Order:'+omid+'? This Action cannot be reversed.'))
+	{
+    	console.log('Thanks for confirming');
+		$.ajax(
+			{
+				type: "POST",
+				url: "orders/delete_order",
+				dataType: "json",
+				data:
+				{
+					omid: omid,
+					usrlvl: usrlvl
+				},
+				success: function(res)
+				{
+					console.log(res);
+					$(liEl).addClass("hidden");
+					$(liEl).remove();
+				}
+			});
+	}
+	else
+	{
+    	console.log('Why did you press cancel? You should have confirmed');
+		return false;
+	}	
 }
 $(document).ready(function()
 {
@@ -94,6 +131,5 @@ $(document).ready(function()
 		// $("span."+btnId).parent().addClass("hidden");
 		console.log("hope it workd.");
 	});
-
-
+	// Delete button click event
 });

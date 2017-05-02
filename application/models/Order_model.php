@@ -67,6 +67,18 @@
                 return $insert_id;
             }
         }
+
+// Delete Order
+		public function delete_order()
+		{
+			// Need to get OmId for Ordermaster table.
+			// Also i should probably check user level but maybe later.
+			$OmId = $this->input->post('omid');
+			$this->db->where('OmId',$OmId);
+			$result = $this->db->delete('ordermaster');
+			return $result;
+		}
+// /Delete Order
         public function order_item_state($state)
         {
             // To update record set OiStatus with $state['OiStatus']

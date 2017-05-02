@@ -262,36 +262,44 @@ $(document).ready(function()
         $("#total").val( parseFloat(total).toFixed(2));
 	});
 	//save order function
-	$("#save").on('click',function(){
-            var orderform = $( "#OrderForm" );
-            orderform.validate();
-            if(orderform.valid()===false || $my_global_order.length === 0)
-            {
-                console.log("cant save");
-                return;
-            }
+	$("#save").on('click',function()
+	{
+		if($(this).attr("disabled"))
+		{
+			console.log("already saved");
+			return false;
+		}
+        var orderform = $( "#OrderForm" );
+        orderform.validate();
+        if(orderform.valid()===false || $my_global_order.length === 0)
+        {
+            console.log("cant save");
+            return;
+        }
 		//console.log($my_global_order);
 		//console.log("order var above");
 		$(this).attr("disabled","true");
-		$.ajax({
-                    type: "POST",
-                    url: "orders/save_order",
-                    dataType: 'json',
-                    data: {
-                        name: $('#Qname').val().toUpperCase(),
-                        lpo: $('#Lpo').val(),
-                        date: $('#Cdate').val(),
-						username: $('#username').attr("data-username"),
-                        orderdata: $my_global_order
-                    },
-                    success: function(res)
-                    {
-						// #something is a Div. so i will append the order number.
-                        $("#something").attr("class","alert fz-success alert-dismissable fade in").append("Number: <strong>"+res+"</strong>");
-                        // window.location.replace("order/"+res);
-                        console.log(res);
-                    }
-                });
+		$.ajax(
+		{
+	        type: "POST",
+	        url: "orders/save_order",
+	        dataType: 'json',
+	        data:
+			{
+	            name: $('#Qname').val().toUpperCase(),
+	            lpo: $('#Lpo').val().toUpperCase(),
+	            date: $('#Cdate').val(),
+				username: $('#username').attr("data-username"),
+	            orderdata: $my_global_order
+	        },
+	        success: function(res)
+	        {
+				// #something is a Div. so i will append the order number.
+	            $("#something").attr("class","alert fz-success alert-dismissable fade in").append("Number: <strong>"+res+"</strong>");
+	            // window.location.replace("order/"+res);
+	            console.log(res);
+	        }
+	    });
 
 
 	});

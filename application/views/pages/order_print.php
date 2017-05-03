@@ -13,7 +13,6 @@ I realise the name is crappy but not gonna change as it is gonna be difficult. -
         </div>
         <div class="col-sm-3">
             <span class="row2">LPO: <?php echo $orderinfo['OmLpo']; ?></span>
-
         </div>
         <div class="col-sm-3">
             <span class="row1">Date: <?php echo date("d-m-Y",strtotime($orderinfo['OmCreatedOn'])); ?></span>
@@ -72,7 +71,12 @@ I realise the name is crappy but not gonna change as it is gonna be difficult. -
                 <td class="LQty"><?php echo $item['OiLeftQty']; ?></td>
                 <td class="TQty"><?php echo $item['OiTotalQty']; ?></td>
                 <td class="Price"><?php echo $item['OiPrice']?></td>
-		<?php $Amount = $Amount + ($item['OiTotalQty'] * $item['OiPrice']); ?>
+				<?php
+					if($item['OiStatus']!=2)
+					{
+						$Amount = $Amount + ($item['OiTotalQty'] * $item['OiPrice']);
+					}
+				?>
             </tr>
         <?php $i++;?>
         <?php endforeach; ?>

@@ -1,6 +1,6 @@
 function load_orders(UlId)
 {
-	var usrlvl = (parseInt($('#username').attr("data-level"))>8)? "" : "hidden";
+	var usrlvl = (parseInt($('#username').attr("data-level"))>6)? "" : "hidden";
 	$.ajax({
 		type: "GET",
 		url: "orders/get_orderlist",
@@ -19,6 +19,10 @@ function load_orders(UlId)
 				{
 					liHideState = (val['OmStore2']!=0)? "hidden" : "";
 				}
+				if($("#printed").hasClass("btn-default"))
+				{
+					liHideState = (val['OmPrinted']!=0)? "hidden" : "";
+				}
 				varStatus = [
 					(val['OmStatus']==1)? "btn-success" : "btn-primary",
 					(val['OmStore1']==0)? "label-primary" : "label-success",
@@ -28,7 +32,7 @@ function load_orders(UlId)
 
 				varUl = `<li class="list-group-item `+liHideState+`" data-omid="`+val["OmId"]+`">
 							<p>Order #:`+val["OmId"]+`</p>
-							<button class="del `+usrlvl+`btn btn-danger btn-xs pull-right" onClick="delete_click(`+val["OmId"]+`)">
+							<button class="del `+usrlvl+` btn btn-danger btn-xs pull-right" onClick="delete_click(`+val["OmId"]+`)">
 								<span class="glyphicon glyphicon-trash"></span>
 							</button>
 							<p>Name :`+ val["OmCompanyName"]+`</p>
@@ -37,7 +41,7 @@ function load_orders(UlId)
 							<span class="label `+varStatus[2] +` s2 pull-right">Store 2</span>
 							<br>
 							<a href="order/`+ val["OmId"]+`" target="_blank" class="btn ` + varStatus[0] + `" role="button">Open</a>
-  		   					<a href="order/`+val["OmId"]+`/print" class="btn ` + varStatus[3] + ` `+usrlvl+`" role="button"  >Print</a>
+  		   					<a href="order/`+val["OmId"]+`/print" class="pri btn ` + varStatus[3] + ` `+usrlvl+`" role="button"  >Print</a>
   	   					</li>`;
 				$("#"+UlId).append(varUl);
 			});
@@ -85,7 +89,7 @@ function delete_click(omid)
 	{
     	console.log('Why did you press cancel? You should have confirmed');
 		return false;
-	}	
+	}
 }
 $(document).ready(function()
 {
@@ -131,5 +135,18 @@ $(document).ready(function()
 		// $("span."+btnId).parent().addClass("hidden");
 		console.log("hope it workd.");
 	});
-	// Delete button click event
+	// Printed Button click event
+	$("#printed").on('click',function()
+	{
+		if($(this).hasClass("btn-success")) // Already Showing all orders
+		{
+			$("a.pri.btn-success").parent().addClass("hidden");
+			$(this).removeClass("btn-success").addClass("btn-default");
+		}
+		else // Currently Showing Only unprinted orders
+		{
+			$("a.pri.btn-success").parent().removeClass("hidden");
+			$(this).removeClass("btn-default").addClass("btn-success");
+		}
+	});
 });

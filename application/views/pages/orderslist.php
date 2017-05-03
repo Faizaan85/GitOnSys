@@ -13,7 +13,8 @@
 			<button id="s2" class="btn btn-success">Store 2</button>
 		</div>
 		<div class="col-md-2">
-			<button id="printed" class="btn btn-default">Print</button>
+			<button id="printed" class="btn btn-success <?php
+			echo ((($this->session->level)<7)? "hidden" : ""); ?>">Printed</button>
 		</div>
 
     </div>

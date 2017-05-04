@@ -14,6 +14,7 @@ I realise the name is crappy but not gonna change as it is gonna be difficult. -
         <div class="col-sm-3">
             <span class="row2">LPO: <?php echo $orderinfo['OmLpo']; ?></span>
         </div>
+		
         <div class="col-sm-3">
             <span class="row1">Date: <?php echo date("d-m-Y",strtotime($orderinfo['OmCreatedOn'])); ?></span>
         </div>

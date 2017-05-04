@@ -27,8 +27,6 @@
 			}
 		}
 	?>
-
-
     <script src="<?php echo base_url(); ?>assets/js/jquery-3.2.0.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/js/jqvalid/dist/jquery.validate.js"></script>
     <script src="<?php echo base_url();?>assets/js/shortcut.js"></script>
@@ -73,11 +71,17 @@
             font-size: small;
         }
     }
-    @page
+	<?php if($title==" ") // Put $title== "Order Print" to make it work
 	{
-        size: 8.27in 11.65in;
-        position: relative;
-    }
+		echo '@page {size: 6.33in 9.05in; position: relative;}';
+	}
+	else
+	{
+		echo '@page	{size: 8.27in 11.65in; position: relative;}';
+	}
+
+	?>
+    
 
     </style>
 

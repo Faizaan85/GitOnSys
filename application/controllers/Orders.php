@@ -28,7 +28,7 @@ class Orders extends CI_Controller
 		$this->load->model('order_model');
         $data['orderinfo'] = $this->order_model->get_orders($omid);
         $data['items'] = $this->order_model->get_order($omid);
-        $data['title'] = ucfirst("order Details");
+        $data['title'] = ($print == "FALSE")? ucfirst("order Details") : ucfirst("Order Print");
         $data['js'] = ($print == "FALSE")? "order_details.js" : "order_print.js";
         $data['autorefresh']=FALSE;
 

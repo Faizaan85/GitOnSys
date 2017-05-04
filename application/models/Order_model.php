@@ -10,6 +10,9 @@
         {
             if($cond == "ALL")
             {
+				$yesterday = date("Y-m-d",strtotime("-2 day"));
+				$whereCondition = "OmCreatedOn > '".$yesterday."' OR OmPrinted = 0";
+				$this->db->where($whereCondition);
                 $query = $this->db->order_by('OmId','DESC')->get('ordermaster_user');
                 return $query->result_array();
             }

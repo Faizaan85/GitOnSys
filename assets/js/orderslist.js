@@ -28,10 +28,14 @@ function load_orders(UlId)
 					(val['OmStore1']==0)? "label-primary" : "label-success",
 					(val['OmStore2']==0)? "label-primary" : "label-success",
 					(val['OmPrinted']==0)? "btn-default" : "btn-success"
-				]
+				];
+				var orderDate = val["OmCreatedOn"].split("-");
+				orderDate = orderDate[2] +"/"+orderDate[1]+"/"+orderDate[0];
 
 				varUl = `<li class="list-group-item `+liHideState+`" data-omid="`+val["OmId"]+`">
+					<h5 class="pull-right">Date: `+ orderDate +`</h5>
 							<p>Order #:`+val["OmId"]+`</p>
+
 							<button class="del `+usrlvl+` btn btn-danger btn-xs pull-right" onClick="delete_click(`+val["OmId"]+`)">
 								<span class="glyphicon glyphicon-trash"></span>
 							</button>
@@ -49,7 +53,7 @@ function load_orders(UlId)
 		},
 		error: function(res)
 		{
-			alert(res);
+			console.log(res);
 		}
 	});
 }

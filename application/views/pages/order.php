@@ -25,7 +25,8 @@ I realise the name is crappy but not gonna change as it is gonna be difficult. -
 	</div>
     <hr>
     <div class="row">
-        <button type="button" id="print" class="btn btn-info hidden-print" value="Print">Print</button>
+		<a href="<?php echo base_url()?>print/<?php echo ($orderinfo['OmId']);?>" class="btn btn-info hidden-print" role="button">Print</a>
+
 		<?php
 			$store1 = ($orderinfo['OmStore1']==1? "btn-success" : "btn-primary");
 			$store2 = ($orderinfo['OmStore2']==1? "btn-success" : "btn-primary");

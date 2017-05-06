@@ -226,7 +226,7 @@ $(document).ready(function()
     });
     $(window).bind('beforeunload', function()
     {
-		if($my_global_order.length>0)
+		if($my_global_order.length>0 && $("#save").attr("disabled")=="false")
 		{
 			return 'Are you sure you want to leave?';
 		}
@@ -296,8 +296,9 @@ $(document).ready(function()
 	        {
 				// #something is a Div. so i will append the order number.
 	            $("#something").attr("class","alert fz-success alert-dismissable fade in").append("Number: <strong>"+res+"</strong>");
-	            // window.location.replace("order/"+res);
-	            console.log(res);
+				console.log(res);
+	            window.location.replace("print/"+res);
+
 	        }
 	    });
 

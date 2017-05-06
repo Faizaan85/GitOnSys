@@ -56,6 +56,7 @@ $route['order/(:num)'] = 'orders/get_order_details/$1';
 $route['order/(:num)/print'] = 'orders/get_order_details/$1/$2';
 $route['neworder'] = 'orders/create_new_order';
 $route['itemsearch'] = 'items/item_search';
+$route['print/(:num)'] = 'orders/print_order/$1';
 $route['register'] = 'users_control/register';
 $route['login'] = 'users_control/login';
 $route['logout'] = 'users_control/logout';

@@ -81,7 +81,7 @@
 	}
 
 	?>
-    
+
 
     </style>
 
@@ -140,7 +140,7 @@
                 </form>
 				<!-- Right Side Navbar -->
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="#">Link</a></li>
+					<li><a href="<?php echo base_url()?>print">Link</a></li>
 					<li class="dropdown">
 						<a href="#" id="username" data-username="<?php echo ($this->session->username) ?>" data-level="<?php echo ($this->session->level) ?>"class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo ($this->session->username) ?><span class="caret"></span></a>
 						<ul class="dropdown-menu">

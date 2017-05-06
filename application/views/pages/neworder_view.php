@@ -12,7 +12,7 @@
                 <label for="Qname">Customer Code:</label>
                 <select  id="Qname" class="form-control selectpicker " data-live-search="true" onkeyup='whichButton(event.keyCode, "Lpo")'>
                     <?php foreach($clients as $client) :?>
-                    <option value="<?php echo ($client['CLCONAME']); ?>"> <?php echo ($client['CLCONAME'].' '.$client['CLCODE'] ); ?></option>
+                    <option value="<?php echo ($client['CLCONAME'].' '.$client['CLCODE'] ); ?>"> <?php echo ($client['CLCONAME'].' '.$client['CLCODE'] ); ?></option>
                     <?php endforeach;?>
                 </select>
             </div>

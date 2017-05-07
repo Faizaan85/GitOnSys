@@ -41,7 +41,7 @@ function FancyTable($rows)
 {
 
     // Colors, line width and bold font
-	$this->SetFillColor(128,128,128);
+	$this->SetFillColor(255,255,255);
     // $this->SetTextColor(255);
     //$this->SetDrawColor(128,0,0);
     $this->SetLineWidth(.3);
@@ -58,6 +58,7 @@ function FancyTable($rows)
     // $this->SetTextColor(0);
     // $this->SetFont('');
     // Data
+	$this->SetFillColor(217,217,217);
     $fill = false; // Flag
 	$rc = 1; // RowCount
 	$this->SetFont('Times','',10);
@@ -189,7 +190,7 @@ class Orders extends CI_Controller
 		$pdf->AddPage();
 		$pdf->FancyTable($items);
 		//$pdf->Output();
-		$pdf->Output('F','i:/S2/O-'.$orderNumber.'.pdf');
+		$pdf->Output('F','h:/S1/O-'.$orderNumber.'.pdf');
 		echo ('Order saved :'.$orderNumber);
 	}
 

@@ -10,6 +10,7 @@
         {
             if($cond == "ALL")
             {
+				$this->db->select('OmId, OmCompanyName, OmCreatedOn, OmLpo, OmStatus, OmStore1, OmStore2, OmPrinted, OmCreatedBy');
 				$yesterday = date("Y-m-d",strtotime("-2 day"));
 				$whereCondition = "OmCreatedOn > '".$yesterday."' OR OmPrinted = 0";
 				$this->db->where($whereCondition);

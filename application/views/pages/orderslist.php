@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container-fluid">
     <div class="row">
 		<div class="col-md-2">
         	<p><?php echo $title; ?></p>
@@ -16,9 +16,33 @@
 			<button id="printed" class="btn btn-success <?php
 			echo ((($this->session->level)<7)? "hidden" : ""); ?>">Printed</button>
 		</div>
-
-    </div>
-    <ul id = "orderlist" class="list-group">
-
-    </ul>
+	</div>
+	<table id="orderlist" class="display" cellspacing="0" width="100%">
+		<thead>
+			<tr>
+				<th>Order</th>
+				<th>Name</th>
+				<th>LPO</th>
+				<th>Status</th>
+				<th>Store 1</th>
+				<th>Store 2</th>
+				<th>Printed ?</th>
+				<th>Date</th>
+				<th>By</th>
+			</tr>
+		</thead>
+		<tfoot>
+			<tr>
+				<th>Order</th>
+				<th>Name</th>
+				<th>LPO</th>
+				<th>Status</th>
+				<th>Store 1</th>
+				<th>Store 2</th>
+				<th>Printed ?</th>
+				<th>Date</th>
+				<th>By</th>
+			</tr>
+		</tfoot>
+	</table>
 </div>

@@ -121,12 +121,25 @@ $(document).ready(function()
             { "data": "OmId" },
             { "data": "OmCompanyName" },
             { "data": "OmLpo" },
-            { "data": "OmStatus" },
+            { "data":"OmStatus"},
             { "data": "OmStore1" },
             { "data": "OmStore2" },
 			{ "data": "OmPrinted"},
 			{ "data": "OmCreatedOn"},
 			{ "data": "OmCreatedBy"}
-        ]
+        ],
+		"columnDefs":
+		[
+			{
+				"targets": 'tickCross',
+				"render": function ( data, type, row ) {
+					if ( type === 'display')
+					{
+						return data>=1? '<span class="glyphicon glyphicon-ok green"></span>' : '<span class="glyphicon glyphicon-remove red"></span>';
+					}
+					return data;
+			 	}
+			}
+		]
 	});
 });

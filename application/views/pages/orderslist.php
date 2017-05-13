@@ -17,16 +17,16 @@
 			echo ((($this->session->level)<7)? "hidden" : ""); ?>">Printed</button>
 		</div>
 	</div>
-	<table id="orderlist" class="display" cellspacing="0" width="100%">
+	<table id="orderlist" class="table table-striped table-bordered" data-order='[[0,"desc"]]' data-page-length='25' cellspacing="0" width="100%">
 		<thead>
 			<tr>
 				<th>Order</th>
 				<th>Name</th>
 				<th>LPO</th>
-				<th>Status</th>
-				<th>Store 1</th>
-				<th>Store 2</th>
-				<th>Printed ?</th>
+				<th class="tickCross">Status</th>
+				<th class="tickCross">Store 1</th>
+				<th class="tickCross">Store 2</th>
+				<th class="tickCross">Printed ?</th>
 				<th>Date</th>
 				<th>By</th>
 			</tr>

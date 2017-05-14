@@ -83,9 +83,9 @@ class Orders extends CI_Controller
 		$usrLvl = $this->input->post('usrlvl');
 		if($usrLvl<7)
 		{
-			header('HTTP/1.1 404 Unauthorized User');
+			header('HTTP/1.1 466 Unauthorized User');
         	header('Content-Type: application/json; charset=UTF-8');
-        	die(json_encode(array('message' => 'ERROR', 'code' => 404)));
+        	die(json_encode(array('message' => 'ERROR', 'code' => 466)));
 		}
 		$this->load->model('order_model');
 		$result = $this->order_model->delete_order();

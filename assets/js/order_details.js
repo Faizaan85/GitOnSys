@@ -16,7 +16,7 @@ function change_row_state($orderid, $tr, $state, $lqty, $rqty, $tqty)
         case "edit":
             $setstate = 0;
             break;
-        case "fz-danger":
+        case "fz-danger hidden-print":
             $setstate = 2;
             break;
         default:
@@ -99,7 +99,7 @@ $(document).ready(function()
         // Setting up vars for function
         var tr = $(this).parent();
         var orderid = $('#omid').attr("data-omid");
-        var state = "fz-danger";
+        var state = "fz-danger hidden-print";
 
         // Calling function
         change_row_state(orderid, tr, state);

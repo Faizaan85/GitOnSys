@@ -78,8 +78,9 @@
 			// Need to get OmId for Ordermaster table.
 			// Also i should probably check user level but maybe later.
 			$OmId = $this->input->post('omid');
-			$this->db->where('OmId',$OmId);
-			$result = $this->db->delete('ordermaster');
+			$this->db->set('OmIsDeleted', 1);
+			$this->db->where('Omid', $OmId);
+			$result = $this->db->update('ordermaster');
 			return $result;
 		}
 // /Delete Order

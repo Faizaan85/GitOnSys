@@ -77,7 +77,7 @@ function stop_autoload(myVar)
 }
 function delete_click(omid)
 {
-	console.log("delete button clicked");
+	console.log("delete button clicked"+ omid);
 	var liEl = $('li[data-omid="'+omid+'"]');
 	var omid = parseInt($(liEl).attr('data-omid'));
 	var usrlvl = parseInt($('#username').attr("data-level"));
@@ -116,22 +116,22 @@ function delete_click(omid)
 $(document).ready(function()
 {
 	var usrLvl = parseInt($('#username').attr("data-level"));
+
+	var columnsList = new Array();
+	$('.thRow').each(function()
+	{
+		var colName = $(this).attr('data-colname');
+		var col = {"data": (colName=="")? null : colName };
+		columnsList.push(col);
+	});
+	// console.log(columnsList);
+
 	var dataTable = $('#orderlist').DataTable({
 		"ajax":{
     		"url": "orders/get_orderlist",
     		"dataSrc": ""
   		},
-		"columns": [
-            { "data": "OmId" },
-            { "data": "OmCompanyName" },
-            { "data": "OmLpo" },
-            { "data":"OmStatus"},
-            { "data": "OmStore1" },
-            { "data": "OmStore2" },
-			{ "data": "OmPrinted"},
-			{ "data": "OmCreatedOn"},
-			{ "data": "OmCreatedBy"}
-        ],
+		"columns": columnsList,
 		"columnDefs":
 		[
 			{
@@ -153,9 +153,52 @@ $(document).ready(function()
 					}
 					return data;
 			 	}
+			},
+			{
+				"targets": "options",
+				"render": function ( data, type, row ) {
+					if( type === 'display')
+					{
+						return '<a href="order/'+row.OmId+'/print" target="_blank"><span class="glyphicon glyphicon-print"></span></a> / <a href="order/'+row.OmId+'/edit" target="_blank"><span class="glyphicon glyphicon-pencil"></span></a> / <a href="#" class="deleteRow" data-valomid='+row.OmId+'><span class="glyphicon glyphicon-trash"></span></a>';
+					}
+					return data;
+				}
 			}
 		]
 	});
+	$('#orderlist tbody').on( 'click', '.deleteRow', function ()
+	{
+		console.log($(this).attr('data-valomid'));
+		var omid = parseInt($(this).attr('data-valomid'));
+		var usrlvl = parseInt($('#username').attr("data-level"));
+		var tr = $(this).parents('tr');
+		// Put confirm dialogue box here
+		if (confirm('Are you sure you want to Delete Order:'+omid+'? This Action cannot be reversed.'))
+		{
+			console.log('Thanks for confirming');
+			$.ajax(
+			{
+				type: "POST",
+				url: "orders/delete_order",
+				dataType: "json",
+				data:
+				{
+					omid: omid,
+					usrlvl: usrlvl
+				},
+				success: function(res)
+				{
+					console.log(res);
+					dataTable.row( tr ).remove().draw();
+				},
+				error: function(res)
+				{
+					console.log(res);
+				}
+			});
+		}
+
+	} );
 
 	setInterval(function()
 	{

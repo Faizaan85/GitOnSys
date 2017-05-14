@@ -109,10 +109,14 @@ function delete_click(omid)
 		return false;
 	}
 }
+
+
+
+
 $(document).ready(function()
 {
 	var usrLvl = parseInt($('#username').attr("data-level"));
-	$('#orderlist').DataTable({
+	var dataTable = $('#orderlist').DataTable({
 		"ajax":{
     		"url": "orders/get_orderlist",
     		"dataSrc": ""
@@ -131,6 +135,16 @@ $(document).ready(function()
 		"columnDefs":
 		[
 			{
+				"targets": 'order',
+				"render": function ( data, type, row ) {
+					if ( type === 'display')
+					{
+						return '<a href="order/'+data+'" target="_blank">'+data+'</a>';
+					}
+					return data;
+			 	}
+			},
+			{
 				"targets": 'tickCross',
 				"render": function ( data, type, row ) {
 					if ( type === 'display')
@@ -141,5 +155,26 @@ $(document).ready(function()
 			 	}
 			}
 		]
+	});
+
+	setInterval(function()
+	{
+		if($("#autoReload").attr("data-state") == "TRUE")
+		{
+			dataTable.ajax.reload(null, false);
+			console.log("called");
+		}
+
+	}, 10000);
+	// Code to handle the pause button
+	$("#autoReload").click(function() {
+		if($(this).attr("data-state")=="TRUE")
+		{
+			$(this).attr("data-state","FALSE").removeClass("btn-success").addClass("btn-danger");
+		}
+		else {
+			$(this).attr("data-state","TRUE").removeClass("btn-danger").addClass("btn-success");
+		}
+
 	});
 });

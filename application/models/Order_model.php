@@ -26,7 +26,7 @@
         }
         public function get_order($omid)
         {
-            $query = $this->db->get_where('orderitems', array('OiOmId'=>$omid));
+            $query = $this->db->get_where('order_details', array('OiOmId'=>$omid));
             return $query->result_array();
         }
         public function post_order($userid)

@@ -25,13 +25,13 @@ class Orders extends CI_Controller
     public function get_order_details($omid,$print = "FALSE")
     {
 
-		$this->load->model('order_model');
-        $data['orderinfo'] = $this->order_model->get_orders($omid);
-        $data['items'] = $this->order_model->get_order($omid);
+		$this->load->model(array('order_model','item_model'));
+        $data['orderinfo'] = $this->order_model->get_orders($omid); //ordermaster
+        $data['items'] = $this->order_model->get_order($omid); //orderitems / order details
         $data['title'] = ($print == "FALSE")? ucfirst("order Details") : ucfirst("Order Print");
         $data['js'] = ($print == "FALSE")? "order_details.js" : "order_print.js";
         $data['autorefresh']=FALSE;
-
+		$data['envals'] = $this->item_model->enum_select();
         $this->load->view('templates/header', $data);
         if($print == "FALSE")
         {

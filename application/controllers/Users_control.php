@@ -69,6 +69,7 @@ class users_control extends CI_Controller{
 				$data = array(
 					'username' => $result[0]['UsrUsername'],
 					'level' => $result[0]['UsrLevel'],
+					'storelevel' => $result[0]['UsrStoreLevel'],
 					'logged_in' => TRUE
 				);
 				// Set Session

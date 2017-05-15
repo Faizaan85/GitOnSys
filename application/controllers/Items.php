@@ -37,6 +37,12 @@ class Items extends CI_Controller
         $this->load->view('pages/item_search');
         $this->load->view('templates/footer');
     }
+	public function set_item_store()
+	{
+		$this->load->model(array('item_model'));
+		$result = $this->item_model->set_item_store();
+		echo json_encode($result);
+	}
 }
 
 /*

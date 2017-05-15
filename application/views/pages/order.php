@@ -47,24 +47,47 @@ I realise the name is crappy but not gonna change as it is gonna be difficult. -
             </tr>
         </thead>
         <tbody>
-            <?php $i=1;?>
+
+            <?php
+				//preparing select option string.
+				$ccode = '<select class="ccode">';
+				foreach ($envals as $key=>$eval)
+				{
+					# code...
+					$ccode = $ccode.'<option value="'.$key.'">'.$eval.'</option>';
+				}
+				$ccode = $ccode . '</select>';
+				// initializing counter variable.
+				$i=1;
+			?>
             <?php foreach($items as $item): ?>
 
-            <tr id="<?php echo ($item['OiId']); ?>"
+            <tr id="<?php echo ($item['OiId']);?>" data-partno= "<?php echo ($item['OiPartNo'])  ?>"
                 <?php
+					$str_class='class=';
+					$usrstorelevel = $this->session->storelevel;
+					if($usrstorelevel != "All")
+					{
+						if($usrstorelevel != $item['IdStore'])
+						{
+							// Means its either Store 1 or Store 2.
+							$str_class .= ' hidden ';
+						}
+					}
                     switch ($item['OiStatus']) {
                         case "0":
-                            echo "class='default'";
+                            $str_class .= " 'default' ";
                             break;
                         case "1":
-                            echo "class='fz-success'";
+                            $str_class .= " 'fz-success' ";
                             break;
                         case "2":
-                            echo "class='fz-danger hidden-print'";
+                            $str_class .= " 'fz-danger hidden-print' ";
                             break;
                         default:
-                            echo "class='warning'";
+                            $str_class .= " 'warning' ";
                     }
+					echo $str_class;
                 ?>
             >
                 <td  class="done">
@@ -89,6 +112,10 @@ I realise the name is crappy but not gonna change as it is gonna be difficult. -
 
 				<td>
 					<?php echo $item['OiDescription']; ?>
+					<span class="pull-right">
+						<label>Store :</label>
+						<?php echo (str_replace('>'.$item['IdStore'], ' selected>'.$item['IdStore'], $ccode)); ?>
+					</span>
 				</td>
 
                 <td class="RQty">

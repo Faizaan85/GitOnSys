@@ -7,7 +7,7 @@ class Orders extends CI_Controller
         // $this->load->model('order_model');
         // $data['orders'] = $this->order_model->get_orders();
         $data['title'] = ucfirst("orders");
-        $data['js']='orderslist.js';
+        $data['js']=array('DataTables/datatables.min.js','js/orderslist.js');
         // $data['autorefresh']=TRUE;
         // $data['baseurl']=base_url();
         $this->load->view('templates/header', $data);
@@ -29,7 +29,7 @@ class Orders extends CI_Controller
         $data['orderinfo'] = $this->order_model->get_orders($omid); //ordermaster
         $data['items'] = $this->order_model->get_order($omid); //orderitems / order details
         $data['title'] = ($print == "FALSE")? ucfirst("order Details") : ucfirst("Order Print");
-        $data['js'] = ($print == "FALSE")? "order_details.js" : "order_print.js";
+        $data['js'] = ($print == "FALSE")? array("js/order_details.js") : array("js/order_print.js");
         $data['autorefresh']=FALSE;
 		$data['envals'] = $this->item_model->enum_select();
         $this->load->view('templates/header', $data);
@@ -48,11 +48,14 @@ class Orders extends CI_Controller
         $this->load->model('client_model');
         $data['clients'] = $this->client_model->get_clients();
         $data['title'] = ucfirst("new Order");
-        $data['js'] = 'neworder.js';
+        $data['js'] = array(
+			'tabulator-master/tabulator.js',
+			'js/neworder.js'
+		);
         //$data['clients'] =
         $data['autorefresh']=FALSE;
         $this->load->view('templates/header',$data);
-        $this->load->view('pages/neworder_view');
+        $this->load->view('pages/neworder_view-tabulator.php');
         $this->load->view('templates/footer');
     }
     public function save_order()

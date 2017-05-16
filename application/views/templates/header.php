@@ -19,32 +19,56 @@
     <meta name="author" content="Faizaan Varteji">
 	<?php
 		$varsdefined = get_defined_vars();
-		if(isset($varsdefined['autorefresh']))
-		{
-			if($autorefresh === TRUE)
-			{
-				echo ('<meta http-equiv="refresh" content="3; URL='. base_url().'orders">');
-			}
-		}
+		// if(isset($varsdefined['autorefresh']))
+		// {
+		// 	if($autorefresh === TRUE)
+		// 	{
+		// 		echo ('<meta http-equiv="refresh" content="3; URL='. base_url().'orders">');
+		// 	}
+		// }
 	?>
     <script src="<?php echo base_url(); ?>assets/js/jquery-3.2.0.min.js"></script>
+
 	<script src="<?php echo base_url(); ?>assets/js/jquery-ui/jquery-ui.min.js"></script>
 
     <script src="<?php echo base_url(); ?>assets/js/jqvalid/dist/jquery.validate.js"></script>
-	<script src="<?php echo base_url(); ?>assets/DataTables/datatables.min.js"></script>
+
+	
 
     <script src="<?php echo base_url();?>assets/js/shortcut.js"></script>
-    <script src="<?php echo base_url();?>assets/js/bootstrap-select.min.js"></script>
-    <?php if (isset($varsdefined['js'])) : ?>
-        <script type="text/javascript" src="<?php echo base_url();?>assets/js/<?php echo $js;?>"></script>
-    <?php endif; ?>
+
+	<script src="<?php echo base_url();?>assets/js/bootstrap-select.min.js"></script>
+
+	<?php
+		if(isset($varsdefined['js']))
+		{
+			foreach($js as $j)
+			{
+				$str_script = '<script type="text/javascript" src="';
+				$str_script .= base_url();
+				$str_script .= 'assets/'.$j.'"></script>';
+
+				echo $str_script;
+			}
+		}
+	?>
+
 
     <script src="<?php echo base_url(); ?>assets/js/bootstrap.min.js"></script>
-    <link href="<?php echo base_url(); ?>assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+
+
+	<link href="<?php echo base_url(); ?>assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+
 	<link href="<?php echo base_url(); ?>assets/DataTables/datatables.min.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/bootstrap-select.min.css" type="text/css">
-    <style type="text/css">
+
+	<link href="<?php echo base_url(); ?>assets/tabulator-master/themes/bootstrap/tabulator_bootstrap.css" rel="stylesheet" type="text/css">
+
+	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/font-awesome.min.css" type="text/css">
+
+	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/bootstrap-select.min.css" type="text/css">
+
+
+	<style type="text/css">
 	.fz-danger {
 	    background-color: #e46666 !important;
 	}

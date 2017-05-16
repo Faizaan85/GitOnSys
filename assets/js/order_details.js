@@ -16,7 +16,7 @@ function change_row_state($orderid, $tr, $state, $lqty, $rqty, $tqty)
         case "edit":
             $setstate = 0;
             break;
-        case "fz-danger":
+        case "fz-danger hidden-print":
             $setstate = 2;
             break;
         default:
@@ -62,6 +62,8 @@ function change_row_state($orderid, $tr, $state, $lqty, $rqty, $tqty)
 
 $(document).ready(function()
 {
+	var usrStoreLvl = $('#username').attr("data-storelevel");
+	console.log(usrStoreLvl);
     $('#print').click(function(event) {
         /* Act on the event */
         window.print();
@@ -99,7 +101,7 @@ $(document).ready(function()
         // Setting up vars for function
         var tr = $(this).parent();
         var orderid = $('#omid').attr("data-omid");
-        var state = "fz-danger";
+        var state = "fz-danger hidden-print";
 
         // Calling function
         change_row_state(orderid, tr, state);
@@ -159,7 +161,50 @@ $(document).ready(function()
             });
 
 	});
+	$("select.ccode").on('change',function()
+	{
 
+		var v_enum = this.value;
+		var v_enumStr = $(this).find("option:selected").text();
+		var v_tr = $(this).parents('tr');
+		var v_partno =  v_tr.attr('data-partno');
+
+		$.ajax({
+                type: "POST",
+                url: "../items/set_item_store",
+                dataType: 'json',
+                data: {
+					partno: v_partno,
+					option: v_enum
+				},
+                success: function(res)
+                {
+					if(v_tr.hasClass('fz-danger'))
+					{
+						return;
+					}
+					if(v_enumStr != "All")
+					{
+						if(usrStoreLvl != v_enumStr)
+						{
+							v_tr.addClass('hidden-print');
+						}
+						else
+						{
+							v_tr.removeClass('hidden-print');
+						}
+					}
+					else
+					{
+						v_tr.removeClass('hidden-print');
+					}
+
+					// primary color #337ab7 (blue color)
+					//  success color #5cb85c (green color)
+					// cant figure how.
+                }
+            });
+	});
 });
 
 

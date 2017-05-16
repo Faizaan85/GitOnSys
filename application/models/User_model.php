@@ -28,7 +28,7 @@ class User_model extends CI_Model {
 			'UsrUsername' =>  $this->input->post('username'),
 			'UsrPassword' => $enc_password
 		);
-		$this->db->select('UsrUsername, UsrLevel');
+		$this->db->select('UsrUsername, UsrLevel, UsrStoreLevel');
 		$result = $this->db->get_where('users', $data, 1);
 		return $result->result_array();
 	}

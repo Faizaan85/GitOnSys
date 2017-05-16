@@ -28,7 +28,11 @@
 		}
 	?>
     <script src="<?php echo base_url(); ?>assets/js/jquery-3.2.0.min.js"></script>
+	<script src="<?php echo base_url(); ?>assets/js/jquery-ui/jquery-ui.min.js"></script>
+
     <script src="<?php echo base_url(); ?>assets/js/jqvalid/dist/jquery.validate.js"></script>
+	<script src="<?php echo base_url(); ?>assets/DataTables/datatables.min.js"></script>
+
     <script src="<?php echo base_url();?>assets/js/shortcut.js"></script>
     <script src="<?php echo base_url();?>assets/js/bootstrap-select.min.js"></script>
     <?php if (isset($varsdefined['js'])) : ?>
@@ -37,6 +41,7 @@
 
     <script src="<?php echo base_url(); ?>assets/js/bootstrap.min.js"></script>
     <link href="<?php echo base_url(); ?>assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+	<link href="<?php echo base_url(); ?>assets/DataTables/datatables.min.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/font-awesome.min.css" type="text/css">
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/bootstrap-select.min.css" type="text/css">
     <style type="text/css">
@@ -45,6 +50,12 @@
 	}
 	.fz-success {
 		background-color: #44d055 !important;
+	}
+	.green {
+		color: #44d055;
+	}
+	.red{
+		color: #e46666;
 	}
 	.edit-toggle{
 		border: none;
@@ -81,7 +92,7 @@
 	}
 
 	?>
-    
+
 
     </style>
 
@@ -140,9 +151,9 @@
                 </form>
 				<!-- Right Side Navbar -->
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="#">Link</a></li>
+					<li><a href="#"><?php echo ($this->session->storelevel) ?></a></li>
 					<li class="dropdown">
-						<a href="#" id="username" data-username="<?php echo ($this->session->username) ?>" data-level="<?php echo ($this->session->level) ?>"class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo ($this->session->username) ?><span class="caret"></span></a>
+						<a href="#" id="username" data-username="<?php echo ($this->session->username) ?>" data-level="<?php echo ($this->session->level) ?>" data-storelevel="<?php echo ($this->session->storelevel) ?>" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo ($this->session->username) ?><span class="caret"></span></a>
 						<ul class="dropdown-menu">
 							<li><a href="#">Profile</a></li>
 							<li><a href="#">Settings</a></li>

@@ -10,6 +10,7 @@
         {
             if($cond == "ALL")
             {
+				$this->db->select('OmId, OmCompanyName, OmCreatedOn, OmLpo, OmStatus, OmStore1, OmStore2, OmPrinted, OmCreatedBy');
 				$yesterday = date("Y-m-d",strtotime("-2 day"));
 				$whereCondition = "OmCreatedOn > '".$yesterday."' OR OmPrinted = 0";
 				$this->db->where($whereCondition);
@@ -25,7 +26,7 @@
         }
         public function get_order($omid)
         {
-            $query = $this->db->get_where('orderitems', array('OiOmId'=>$omid));
+            $query = $this->db->get_where('order_details', array('OiOmId'=>$omid));
             return $query->result_array();
         }
         public function post_order($userid)
@@ -77,8 +78,9 @@
 			// Need to get OmId for Ordermaster table.
 			// Also i should probably check user level but maybe later.
 			$OmId = $this->input->post('omid');
-			$this->db->where('OmId',$OmId);
-			$result = $this->db->delete('ordermaster');
+			$this->db->set('OmIsDeleted', 1);
+			$this->db->where('Omid', $OmId);
+			$result = $this->db->update('ordermaster');
 			return $result;
 		}
 // /Delete Order

@@ -25,13 +25,13 @@ class Orders extends CI_Controller
     public function get_order_details($omid,$print = "FALSE")
     {
 
-		$this->load->model('order_model');
-        $data['orderinfo'] = $this->order_model->get_orders($omid);
-        $data['items'] = $this->order_model->get_order($omid);
+		$this->load->model(array('order_model','item_model'));
+        $data['orderinfo'] = $this->order_model->get_orders($omid); //ordermaster
+        $data['items'] = $this->order_model->get_order($omid); //orderitems / order details
         $data['title'] = ($print == "FALSE")? ucfirst("order Details") : ucfirst("Order Print");
         $data['js'] = ($print == "FALSE")? "order_details.js" : "order_print.js";
         $data['autorefresh']=FALSE;
-
+		$data['envals'] = $this->item_model->enum_select();
         $this->load->view('templates/header', $data);
         if($print == "FALSE")
         {
@@ -83,9 +83,9 @@ class Orders extends CI_Controller
 		$usrLvl = $this->input->post('usrlvl');
 		if($usrLvl<7)
 		{
-			header('HTTP/1.1 404 Unauthorized User');
+			header('HTTP/1.1 466 Unauthorized User');
         	header('Content-Type: application/json; charset=UTF-8');
-        	die(json_encode(array('message' => 'ERROR', 'code' => 404)));
+        	die(json_encode(array('message' => 'ERROR', 'code' => 466)));
 		}
 		$this->load->model('order_model');
 		$result = $this->order_model->delete_order();

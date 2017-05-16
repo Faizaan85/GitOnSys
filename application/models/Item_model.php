@@ -1,11 +1,27 @@
 <?php
 class Item_model extends CI_Model
 {
-    public function get_partno_details($partno)//input partno and get details of it. 
+	public function enum_select()
+    {
+        $query = "SHOW COLUMNS FROM itemdetails LIKE 'IdStore'";
+        $row = $this->db->query($query)->row()->Type;
+        $regex = "/'(.*?)'/";
+		//enum('All','Store 1','Store 2')
+        preg_match_all( $regex , $row, $enum_array );
+        $enum_fields = $enum_array[1];
+		$i=1;
+        foreach ($enum_fields as $key=>$value)
+        {
+            $enums[$i] = $value;
+			$i++;
+        }
+        return $enums;
+    }
+    public function get_partno_details($partno)//input partno and get details of it.
     {
         $query = $this->db->get_where('item', array('PART_NO'=>$partno));
         return $query->row_array();
-        
+
     }
     public function search($value="")
     {
@@ -31,10 +47,22 @@ class Item_model extends CI_Model
     	}
 
     }
+	public function set_item_store()
+	{
+		// fetch post data
+		$data = array(
+			'IdIPART_NO' => $this->input->post('partno'),
+			'IdStore' => $this->input->post('option')
+		);
+		// set db condition.
+		$this->db->set('IdStore',$data['IdStore']);
+		$this->db->where('IdIPART_NO',$data['IdIPART_NO']);
+		// Return the result of the query
+		return $this->db->update('itemdetails');
+	}
 }
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-

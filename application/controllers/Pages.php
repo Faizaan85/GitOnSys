@@ -9,8 +9,7 @@ class Pages extends CI_Controller
                 	// Whoops, we don't have a page for that!
                 	show_404();
         		}
-			$this->load->model(array('item_model'));
-			$data['envals'] = $this->item_model->enum_select();
+			
 
 	        $data['title'] = ucfirst($page); // Capitalize the first letter
 

@@ -63,7 +63,7 @@
                 </div>
                 <div class="col-xs-1">
                     <label for="Price_">Price</label>
-                    <input type="number" class="form-control" id="Price_" min="0" data-tgp="1" onkeyup='whichButton(event.keyCode, "Add_Row")'>
+                    <input type="number" class="form-control" id="Price_" min="0" data-tgp="-1" onkeyup='whichButton(event.keyCode, "Add_Row")'>
                 </div>
             </div>
         </form>

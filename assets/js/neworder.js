@@ -86,6 +86,7 @@ function whichButton(keyCode,str)
 			$('#Supplier_no').val(data.SSNO);
 			$('#Price_').val(data.SALES_PRIC);
 			$('#Price_').attr("data-tgp",data.UNIT_COST);
+			// This sets the unit cost price.
 		}).fail(function(){
 			// Failed Return
 			alert("Part Number NOT found.");
@@ -113,7 +114,7 @@ function clearInput()
 	document.getElementById("Qty_L").value="0";
 	document.getElementById("Total_").value="0";
 	document.getElementById("Price_").value="";
-    $('#Price_').attr("data-tgp","1");
+    $('#Price_').attr("data-tgp","-1");
 
 
 }
@@ -195,7 +196,7 @@ function addRow(tableID)
         var amount = parseFloat(parseFloat(qtyt)*price).toFixed(2);
     //Validation
         console.log(supplierno);
-        if(addrowform.valid() === false ||  price_tgp >= price || desc=="")
+        if(addrowform.valid() === false ||  price_tgp >= price || desc=="" || price_tgp == -1)
         {
             alert("Invalid Item");
             return;

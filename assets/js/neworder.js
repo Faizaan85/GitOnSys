@@ -221,6 +221,24 @@ function addRow(tableID)
 
 $(document).ready(function()
 {
+	$("#Output").tabulator({
+		height:"300px",
+		fitColumns:true,
+		columns:[
+			{title:"Sr.", field:"select", sortable:true},
+			{title:"Part No", field:"partno", sortable:true},
+			{title:"Supplier No", field:"supplierno", sortable:true},
+			{title:"Description", field:"description", sortable:true, editable:true},
+			{title:"Qty R", field:"qtyr", sortable:true, align:"center", editable:true},
+			{title:"Qty L", field:"qtyl", sortable:true, align:"center", editable:true},
+			{title:"Total", field:"totalqty", sortable:true, align:"center", editable:true},
+			{title:"Price", field:"price", sortable:true, align:"center", editable:true},
+			{title:"Amount", field:"amount", sortable:true, align:"center", editable:true}
+		],
+		cellEdited:function(id, data, row){
+			console.log(id+" "+data+" "+row);
+		},
+	});
     $('#Qname').on('loaded.bs.select',function(e){
         $('#OrderForm').find('button[data-id=Qname]').focus();
     });

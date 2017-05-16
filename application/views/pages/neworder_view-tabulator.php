@@ -27,7 +27,14 @@
             </div>
         </form>
     </div>
+	<div>
+        <hr>
+    </div>
+	<div class="">
+		<table id="Output" class="table table-striped table-bordered">
 
+	    </table>
+	</div>
     <div>
         <hr>
     </div>
@@ -83,24 +90,7 @@
     <div>
         <hr>
     </div>
-    <table id="Output" class="table table-striped table-bordered">
-        <thead>
-            <tr>
-                <th>Select</th>
-                <th>Part No</th>
-                <th>Supplier No</th>
-                <th>Description</th>
-                <th>Qty R</th>
-                <th>Qty L</th>
-                <th>Total</th>
-                <th>Price</th>
-                <th>Amount</th>
-            </tr>
-        </thead>
-        <tbody id="OutputBody">
 
-        </tbody>
-    </table>
 </div>
 
 <?php

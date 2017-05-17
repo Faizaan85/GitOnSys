@@ -1,7 +1,195 @@
 // JavaScript Document
 //shorcuts.
 var $my_global_order = [];
-var $my_counter = 0;
+var $my_counter = 1;
+var $mode = "new"; //possible modes new,edit.
+
+function calcTotal(colName, resultName)
+{
+	var v_total = 0.00;
+	$("."+colName).each(function(i)
+	{
+		if(i>0)
+		{
+			v_total = parseFloat(v_total) + parseFloat($(this).attr("data-value"));
+		}
+	});
+	$("#"+resultName).val( parseFloat(v_total).toFixed(2));
+}
+
+function orderTable(tabName)
+{
+	var delRow = function(v_partno){
+
+	}
+	$(tabName).tabulator({
+		height:"300px",
+		index:"partno",
+		selectable:1,
+		columns:[
+			{
+				title:"Sr.",
+				field:"select",
+				width:100,
+				sortable:true,
+				formatter:"rownum"
+			},
+			{
+				title:"Part No",
+				field:"partno",
+				width:125,
+				sortable:true,
+				onClick:function(e, cell, val, row)
+				{
+					$(tabName).tabulator("deleteRow", val);
+					calcTotal("record","total");
+				}
+			},
+			{
+				title:"Supplier No",
+				field:"supplierno",
+				width:200,
+				sortable:true
+			},
+			{
+				title:"Description",
+				field:"description",
+				width:300,
+				sortable:true,
+				editable:true
+			},
+			{
+				title:"Qty R",
+				field:"qtyr",
+				sortable:true,
+				width:100,
+				editor:function(cell, value, data)
+				{
+					var editor = $('<input type="number" min=0/>');
+					editor.css({
+			            "padding":"3px",
+			            "width":"100%",
+			            "box-sizing":"border-box",
+			        });
+					editor.val(value);
+
+					editor.on("focus",function(e){
+						$(this).select();
+					});
+					editor.on("blur", function(e){
+			            cell.trigger("editval", editor.val());
+			        });
+					return editor;
+				},
+				align:"center",
+				editable:true,
+				mutator:function(val, type, row)
+				{
+					return (parseInt(val)<0)? 0:parseInt(val);
+				}
+			},
+			{
+				title:"Qty L",
+				field:"qtyl",
+				sortable:true,
+				width:100,
+				editor:"number",
+				align:"center",
+				editable:true,
+				mutator:function(val, type, row)
+				{
+					return (parseInt(val)<0)? 0:parseInt(val);
+				}
+			},
+			{
+				title:"Total",
+				field:"totalqty",
+				sortable:true,
+				width:100,
+				editor:"number",
+				align:"center",
+				editable:true,
+				mutator:function(val, type, row)
+				{
+					var v_qtyr = (parseInt(row.qtyr)<0)? 0:parseInt(row.qtyr);
+					var v_qtyl = (parseInt(row.qtyl)<0)? 0:parseInt(row.qtyl);
+					var v_qtyt = parseInt(val);
+					if((v_qtyr + v_qtyl)>0 && (v_qtyr + v_qtyl) != v_qtyt)
+					{
+						return (v_qtyr+v_qtyl);
+					}
+					else
+					{
+						return val;
+					}
+
+				}
+			},
+			{
+				title:"Price",
+				field:"price",
+				sortable:true,
+				formatter:"money",
+				width:100,
+				editor:"number",
+				align:"center",
+				editable:true,
+				mutator:function(val, type, row)
+				{
+					var v_val = parseFloat(val);
+					var v_tgp = parseFloat(row.tgp);
+					return (v_val<=v_tgp)? (v_tgp*0.4)+v_tgp : v_val;
+				}
+			},
+			{
+				title:"Amount",
+				field:"amount",
+				sortable:true,
+				formatter:"money",
+				width:100,
+				align:"center",
+				mutator:function(val, type, row)
+				{
+					var v_price = parseFloat(row.price);
+					var v_qtyt = parseInt(row.totalqty);
+					return parseFloat(v_price*v_qtyt).toFixed(2);
+				},
+				cssClass:"record"
+			},
+			{
+				title:"tgp",
+				field:"tgp",
+				visible:false
+			},
+			{
+				title:"state",
+				field:"state",
+				visible:false
+			}
+		],
+		rowSelectionChanged:function(data, rows){
+		//data - array of data objects for the selected rows in order of selection
+    	//rows - array of jQuery elements for the selected rows in order of selection
+    	},
+		cellEdited:function(id, field, value, oldValue, data, cell, row){
+			// there are 3 possibilities here.
+			// 1. new order is being created, so if mode is new then always add insert as state.
+			if($mode==="new")
+			{
+				$(tabName).tabulator("updateData",[{partno:data.partno, supplierno:data.supplierno, description:data.description, qtyr:data.qtyr, qtyl:data.qtyl, totalqty:data.totalqty, price:data.price, amount:data.amount, tgp:data.tgp, state:"insert"}]);
+			}
+			// 2. editing an order. if item already exists
+			if($mode==="edit" && data.state==="existing")
+			{
+
+			}
+			calcTotal("record","total");
+
+		},
+	});
+}
+
+
 
 shortcut.add("F2", function()
 {
@@ -154,91 +342,80 @@ xmlhttp.send();
 
 function addRow(tableID)
 {
-    var addrowform = $("#AddRowForm");
-    var price_tgp = parseFloat($("#Price_").attr("data-tgp"));
-
-    addrowform.validate();
-
-    var partno =document.getElementById("Part_no").value;
-    partno = partno.toUpperCase();
-
+    var v_addrowform = $("#AddRowForm");
+    var v_price_tgp = parseFloat($("#Price_").attr("data-tgp"));
+    v_addrowform.validate();
+    var v_partno =document.getElementById("Part_no").value;
+    v_partno = v_partno.toUpperCase();
 //Supplier no
-    var supplierno= document.getElementById("Supplier_no").value;
+    var v_supplierno= document.getElementById("Supplier_no").value;
 //Description
-    var desc = document.getElementById("Desc_").value;
+    var v_desc = document.getElementById("Desc_").value;
 //QTY_R
-    var qtyr =  document.getElementById("Qty_R").value;
-    if (qtyr=="")
+    var v_qtyr =  document.getElementById("Qty_R").value;
+    if (v_qtyr=="")
     {
-        qtyr = 0;
+        v_qtyr = 0;
     }
 //QTY_L
-    var qtyl =  document.getElementById("Qty_L").value;
-    if (qtyl=="")
+    var v_qtyl =  document.getElementById("Qty_L").value;
+    if (v_qtyl=="")
     {
-	qtyl=0;
+		v_qtyl=0;
     }
-
 //Total_
-
-    var qtyt =  parseInt(document.getElementById("Total_").value);
-    if(qtyt <= 0 || qtyt === null)
+    var v_qtyt =  parseInt(document.getElementById("Total_").value);
+    if(v_qtyt <= 0 || v_qtyt === null)
     {
             alert("Invalid Total Quantity");
             $('#Total_').focus();
     }
     else
     {
-    //Price_
-        var price = parseFloat($("#Price_").val()).toFixed(2);
-    // Amount
-        var amount = parseFloat(parseFloat(qtyt)*price).toFixed(2);
-    //Validation
-        console.log(supplierno);
-        if(addrowform.valid() === false ||  price_tgp >= price || desc=="" || price_tgp == -1 || isNaN(price))
-        {
-            alert("Invalid Item");
-            return;
-        }
-    //Adding to global variable
-        $my_global_order.push([partno,supplierno,desc,qtyr,qtyl,qtyt,price]);
-        var markup = "<tr><td class='record'> </td><td>" + partno + "</td><td>" + supplierno + "</td><td>" + desc + "</td><td>" + qtyr + "</td><td>" + qtyl + "</td><td>" + qtyt + "</td><td>" + price + "</td><td class='amount'>" + amount + "</td></tr>";
-        var tableid = document.getElementById(tableID);
-    //Adding to table.
-        $(tableid).append(markup);
+	    //Price_
+	    var v_price = parseFloat($("#Price_").val()).toFixed(2);
+	    // Amount
+	    var v_amount = parseFloat(parseFloat(v_qtyt)*v_price).toFixed(2);
+	    //Validation
+	    console.log(v_supplierno);
+	    if(v_addrowform.valid() === false ||  v_price_tgp >= v_price || v_desc=="" || v_price_tgp == -1 || isNaN(v_price))
+	    {
+	        alert("Invalid Item");
+	        return;
+	    }
+	    //Adding to global variable
+	    $my_global_order.push([v_partno,v_supplierno,v_desc,v_qtyr,v_qtyl,v_qtyt,v_price]);
+
+		$('#'+tableID).tabulator('updateOrAddRow', v_partno,{partno:v_partno, supplierno:v_supplierno, description:v_desc, qtyr:v_qtyr, qtyl:v_qtyl, totalqty:v_qtyt, price:v_price, amount:0, tgp: v_price_tgp});
 
 
-        var total = 0.00;
-        $(".record").each(function(i)
-        {
-            total = parseFloat(total) + parseFloat($(this).siblings(".amount").html());
-            ////console.log(total);
-            $(this).html(i+1);
-        });
-        $("#total").val( parseFloat(total).toFixed(2));
+		var v_tabdata = $('#Output').tabulator("getData");
+		console.log(v_tabdata);
+
+	    var v_markup = "<tr><td class='record'> </td><td>" + v_partno + "</td><td>" + v_supplierno + "</td><td>" + v_desc + "</td><td>" + v_qtyr + "</td><td>" + v_qtyl + "</td><td>" + v_qtyt + "</td><td>" + v_price + "</td><td class='amount'>" + v_amount + "</td></tr>";
+	    //     var v_tableid = document.getElementById(tableID);
+	    // //Adding to table.
+	    //     $(v_tableid).append(v_markup);
+
+		calcTotal("record","total");
+	    // var v_total = 0.00;
+	    // $(".record").each(function(i)
+	    // {
+		// 	if(i>0)
+		// 	{
+		// 		v_total = parseFloat(v_total) + parseFloat($(this).attr("data-value"));
+		// 		console.log(i);
+		// 	}
+		//
+	    // });
+	    // $("#total").val( parseFloat(v_total).toFixed(2));
     }
 }
 
 $(document).ready(function()
 {
-	$("#Output").tabulator({
-		height:"300px",
-		fitColumns:true,
-		columns:[
-			{title:"Sr.", field:"select", sortable:true},
-			{title:"Part No", field:"partno", sortable:true},
-			{title:"Supplier No", field:"supplierno", sortable:true},
-			{title:"Description", field:"description", sortable:true, editable:true},
-			{title:"Qty R", field:"qtyr", sortable:true, align:"center", editable:true},
-			{title:"Qty L", field:"qtyl", sortable:true, align:"center", editable:true},
-			{title:"Total", field:"totalqty", sortable:true, align:"center", editable:true},
-			{title:"Price", field:"price", sortable:true, align:"center", editable:true},
-			{title:"Amount", field:"amount", sortable:true, align:"center", editable:true}
-		],
-		cellEdited:function(id, data, row){
-			console.log(id+" "+data+" "+row);
-		},
-	});
+	orderTable("#Output");
+
     $('#Qname').on('loaded.bs.select',function(e){
         $('#OrderForm').find('button[data-id=Qname]').focus();
     });

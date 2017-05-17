@@ -1,7 +1,7 @@
 // JavaScript Document
 //shorcuts.
 var $my_global_order = [];
-var $my_counter = 1;
+var $my_counter = 0;
 var $mode = "new"; //possible modes new,edit.
 
 function calcTotal(colName, resultName)
@@ -19,20 +19,18 @@ function calcTotal(colName, resultName)
 
 function orderTable(tabName)
 {
-	var delRow = function(v_partno){
 
-	}
 	$(tabName).tabulator({
 		height:"300px",
 		index:"partno",
-		selectable:1,
+		// selectable:1,
+		// fitColumns:true,
 		columns:[
 			{
 				title:"Sr.",
 				field:"select",
 				width:100,
-				sortable:true,
-				formatter:"rownum"
+				sortable:true
 			},
 			{
 				title:"Part No",
@@ -165,6 +163,11 @@ function orderTable(tabName)
 				title:"state",
 				field:"state",
 				visible:false
+			},
+			{
+				title:"oiid",
+				field:"oiid",
+				visible:false
 			}
 		],
 		rowSelectionChanged:function(data, rows){
@@ -176,12 +179,17 @@ function orderTable(tabName)
 			// 1. new order is being created, so if mode is new then always add insert as state.
 			if($mode==="new")
 			{
-				$(tabName).tabulator("updateData",[{partno:data.partno, supplierno:data.supplierno, description:data.description, qtyr:data.qtyr, qtyl:data.qtyl, totalqty:data.totalqty, price:data.price, amount:data.amount, tgp:data.tgp, state:"insert"}]);
+				$(tabName).tabulator("updateData",[{partno:data.partno, supplierno:data.supplierno, description:data.description, qtyr:data.qtyr, qtyl:data.qtyl, totalqty:data.totalqty, price:data.price, amount:data.amount, tgp:data.tgp, state:"insert", oiid:0}]);
 			}
-			// 2. editing an order. if item already exists
+			// 2. editing an order. if item already exists from previous save.
 			if($mode==="edit" && data.state==="existing")
 			{
-
+				$(tabName).tabulator("updateData",[{partno:data.partno, supplierno:data.supplierno, description:data.description, qtyr:data.qtyr, qtyl:data.qtyl, totalqty:data.totalqty, price:data.price, amount:data.amount, tgp:data.tgp, state:"update", oiid:data.oiid}]);
+			}
+			// 3. editing an order. if NEW item added.
+			if($mode==="edit" && data.state==="insert")
+			{
+				$(tabName).tabulator("updateData",[{partno:data.partno, supplierno:data.supplierno, description:data.description, qtyr:data.qtyr, qtyl:data.qtyl, totalqty:data.totalqty, price:data.price, amount:data.amount, tgp:data.tgp, state:"insert", oiid:0}]);
 			}
 			calcTotal("record","total");
 
@@ -377,22 +385,25 @@ function addRow(tableID)
 	    // Amount
 	    var v_amount = parseFloat(parseFloat(v_qtyt)*v_price).toFixed(2);
 	    //Validation
-	    console.log(v_supplierno);
+	    // console.log(v_supplierno);
 	    if(v_addrowform.valid() === false ||  v_price_tgp >= v_price || v_desc=="" || v_price_tgp == -1 || isNaN(v_price))
 	    {
 	        alert("Invalid Item");
 	        return;
 	    }
 	    //Adding to global variable
-	    $my_global_order.push([v_partno,v_supplierno,v_desc,v_qtyr,v_qtyl,v_qtyt,v_price]);
 
-		$('#'+tableID).tabulator('updateOrAddRow', v_partno,{partno:v_partno, supplierno:v_supplierno, description:v_desc, qtyr:v_qtyr, qtyl:v_qtyl, totalqty:v_qtyt, price:v_price, amount:0, tgp: v_price_tgp});
+		var v_flag = $('#'+tableID).tabulator('updateRow', v_partno,{ partno:v_partno, supplierno:v_supplierno, description:v_desc, qtyr:v_qtyr, qtyl:v_qtyl, totalqty:v_qtyt, price:v_price, amount:0, tgp: v_price_tgp, state:"update"});
 
-
+		if(v_flag==false)
+		{
+			$my_counter +=1;
+			$('#'+tableID).tabulator('addRow',{select:$my_counter, partno:v_partno, supplierno:v_supplierno, description:v_desc, qtyr:v_qtyr, qtyl:v_qtyl, totalqty:v_qtyt, price:v_price, amount:0, tgp: v_price_tgp, state:"insert", oiid:0});
+		}
 		var v_tabdata = $('#Output').tabulator("getData");
-		console.log(v_tabdata);
+		console.log(JSON.stringify(v_tabdata));
 
-	    var v_markup = "<tr><td class='record'> </td><td>" + v_partno + "</td><td>" + v_supplierno + "</td><td>" + v_desc + "</td><td>" + v_qtyr + "</td><td>" + v_qtyl + "</td><td>" + v_qtyt + "</td><td>" + v_price + "</td><td class='amount'>" + v_amount + "</td></tr>";
+	    // var v_markup = "<tr><td class='record'> </td><td>" + v_partno + "</td><td>" + v_supplierno + "</td><td>" + v_desc + "</td><td>" + v_qtyr + "</td><td>" + v_qtyl + "</td><td>" + v_qtyt + "</td><td>" + v_price + "</td><td class='amount'>" + v_amount + "</td></tr>";
 	    //     var v_tableid = document.getElementById(tableID);
 	    // //Adding to table.
 	    //     $(v_tableid).append(v_markup);

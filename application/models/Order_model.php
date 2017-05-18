@@ -41,7 +41,8 @@
 	        );
 			// Array for orderitems
 	        $orderdata = $this->input->post('orderdata');
-			// Saving process begins
+			//return $orderdata;
+			//// Saving process begins
             $this->db->trans_begin();
             $this->db->insert('ordermaster',$order);
             $insert_id = $this->db->insert_id();

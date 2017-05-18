@@ -61,8 +61,8 @@ class Orders extends CI_Controller
     public function save_order()
     {
 		// Load models.
-		$this->load->model('order_model');
-		$this->load->model('user_model');
+		$this->load->model(array('order_model', 'user_model'));
+
 		// save post username to variable
 		$usrname = $this->input->post('username');
 		// get the userid from username

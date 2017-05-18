@@ -61,29 +61,20 @@ function orderTable(tabName)
 				field:"qtyr",
 				sortable:true,
 				width:100,
-				editor:function(cell, value, data)
-				{
-					var editor = $('<input type="number" min=0/>');
-					editor.css({
-			            "padding":"3px",
-			            "width":"100%",
-			            "box-sizing":"border-box",
-			        });
-					editor.val(value);
-
-					editor.on("focus",function(e){
-						$(this).select();
-					});
-					editor.on("blur", function(e){
-			            cell.trigger("editval", editor.val());
-			        });
-					return editor;
-				},
+				editor:"number",
 				align:"center",
 				editable:true,
 				mutator:function(val, type, row)
 				{
-					return (parseInt(val)<0)? 0:parseInt(val);
+					if(isNaN(parseInt(val)))
+					{
+						return 0;
+					}
+					else
+					{
+						return (parseInt(val)<0)? 0:parseInt(val);
+					}
+
 				}
 			},
 			{
@@ -96,7 +87,14 @@ function orderTable(tabName)
 				editable:true,
 				mutator:function(val, type, row)
 				{
-					return (parseInt(val)<0)? 0:parseInt(val);
+					if(isNaN(parseInt(val)))
+					{
+						return 0;
+					}
+					else
+					{
+						return (parseInt(val)<0)? 0:parseInt(val);
+					}
 				}
 			},
 			{
@@ -111,14 +109,16 @@ function orderTable(tabName)
 				{
 					var v_qtyr = (parseInt(row.qtyr)<0)? 0:parseInt(row.qtyr);
 					var v_qtyl = (parseInt(row.qtyl)<0)? 0:parseInt(row.qtyl);
-					var v_qtyt = parseInt(val);
+					var v_qtyt = (isNaN(parseInt(val)))? 0:parseInt(val);
 					if((v_qtyr + v_qtyl)>0 && (v_qtyr + v_qtyl) != v_qtyt)
 					{
+
 						return (v_qtyr+v_qtyl);
 					}
 					else
 					{
-						return val;
+
+						return (parseInt(v_qtyt)<=0)? 1:parseInt(v_qtyt);
 					}
 
 				}
@@ -400,26 +400,11 @@ function addRow(tableID)
 			$my_counter +=1;
 			$('#'+tableID).tabulator('addRow',{select:$my_counter, partno:v_partno, supplierno:v_supplierno, description:v_desc, qtyr:v_qtyr, qtyl:v_qtyl, totalqty:v_qtyt, price:v_price, amount:0, tgp: v_price_tgp, state:"insert", oiid:0});
 		}
-		var v_tabdata = $('#Output').tabulator("getData");
-		console.log(JSON.stringify(v_tabdata));
 
-	    // var v_markup = "<tr><td class='record'> </td><td>" + v_partno + "</td><td>" + v_supplierno + "</td><td>" + v_desc + "</td><td>" + v_qtyr + "</td><td>" + v_qtyl + "</td><td>" + v_qtyt + "</td><td>" + v_price + "</td><td class='amount'>" + v_amount + "</td></tr>";
-	    //     var v_tableid = document.getElementById(tableID);
-	    // //Adding to table.
-	    //     $(v_tableid).append(v_markup);
+
 
 		calcTotal("record","total");
-	    // var v_total = 0.00;
-	    // $(".record").each(function(i)
-	    // {
-		// 	if(i>0)
-		// 	{
-		// 		v_total = parseFloat(v_total) + parseFloat($(this).attr("data-value"));
-		// 		console.log(i);
-		// 	}
-		//
-	    // });
-	    // $("#total").val( parseFloat(v_total).toFixed(2));
+
     }
 }
 
@@ -476,15 +461,18 @@ $(document).ready(function()
 			return false;
 		}
         var orderform = $( "#OrderForm" );
+		var v_tabdata = $('#Output').tabulator("getData");
+		console.log(v_tabdata.length);
         orderform.validate();
-        if(orderform.valid()===false || $my_global_order.length === 0)
+
+        if(orderform.valid()===false || v_tabdata.length === 0)
         {
             console.log("cant save");
             return;
         }
-		//console.log($my_global_order);
+
 		//console.log("order var above");
-		$(this).attr("disabled","true");
+		//$(this).attr("disabled","true");
 		$.ajax(
 		{
 	        type: "POST",
@@ -496,7 +484,7 @@ $(document).ready(function()
 	            lpo: $('#Lpo').val().toUpperCase(),
 	            date: $('#Cdate').val(),
 				username: $('#username').attr("data-username"),
-	            orderdata: $my_global_order
+	            orderdata: v_tabdata
 	        },
 	        success: function(res)
 	        {
@@ -520,29 +508,3 @@ $(document).ready(function()
 
 	});
 });
-/*
-	//SEND A HTTP REQUEST WITH AJAX
-	var no_len =$('#Part_no').val();
-	//alert(event.which);
-
-	$.ajax({
-	url: 'getdesc.php',
-	data: 'q='+$('#Part_no').val(),
-	dataType: 'json',
-	success: function(data)
-	{
-		var desc=data[0]+" /- "+data[1];
-		var ssno=data[1];
-
-		// UPDATE HTML CONTENT
-		$('#Desc_').val(desc);
-		$('#Desc_').load()
-		//$('#Price_').val(ssno);
-	}
-
-	});
-	*/
-
-
-
-//jquery stuff

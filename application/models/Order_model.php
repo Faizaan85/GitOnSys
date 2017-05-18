@@ -31,7 +31,6 @@
         }
         public function post_order($userid)
         {
-
 			// Array for ordermaster
 	        $order = array(
 	            'OmCompanyName' => $this->input->post('name'),
@@ -41,7 +40,7 @@
 	        );
 			// Array for orderitems
 	        $orderdata = $this->input->post('orderdata');
-			//return $orderdata;
+			//return $orderdata[0]['partno'];
 			//// Saving process begins
             $this->db->trans_begin();
             $this->db->insert('ordermaster',$order);
@@ -51,13 +50,13 @@
             {
                 $insertdata = array(
                     'OiOmId' => $insert_id,
-                    'OiPartNo' => $orderdata[$i][0],
-                    'OiSupplierNo' => $orderdata[$i][1],
-                    'OiDescription' => $orderdata[$i][2],
-                    'OiRightQty' => $orderdata[$i][3],
-                    'OiLeftQty' => $orderdata[$i][4],
-                    'OiTotalQty' => $orderdata[$i][5],
-                    'OiPrice' => $orderdata[$i][6]
+                    'OiPartNo' => $orderdata[$i]['partno'],
+                    'OiSupplierNo' => $orderdata[$i]['supplierno'],
+                    'OiDescription' => $orderdata[$i]['description'],
+                    'OiRightQty' => $orderdata[$i]['qtyr'],
+                    'OiLeftQty' => $orderdata[$i]['qtyl'],
+                    'OiTotalQty' => $orderdata[$i]['totalqty'],
+                    'OiPrice' => $orderdata[$i]['price']
                 );
                 $this->db->insert('orderitems',$insertdata);
             }

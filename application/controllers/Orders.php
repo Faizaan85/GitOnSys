@@ -43,11 +43,21 @@ class Orders extends CI_Controller
         }
         $this->load->view('templates/footer');
     }
-    public function create_new_order()
+    public function create_new_order($mode="new")
     {
         $this->load->model('client_model');
         $data['clients'] = $this->client_model->get_clients();
-        $data['title'] = ucfirst("new Order");
+		if($mode === "new")
+		{
+			$data['title'] = "New Order";
+		}
+		else
+		{
+			$data['title'] = "Edit Order";
+			// Load existing records here.
+			
+		}
+
         $data['js'] = array(
 			'tabulator-master/tabulator.js',
 			'js/neworder.js'
@@ -58,6 +68,10 @@ class Orders extends CI_Controller
         $this->load->view('pages/neworder_view-tabulator.php');
         $this->load->view('templates/footer');
     }
+	public function edit_order();
+	{
+
+	}
     public function save_order()
     {
 		// Load models.

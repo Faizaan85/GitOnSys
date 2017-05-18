@@ -462,7 +462,10 @@ $(document).ready(function()
 		}
         var orderform = $( "#OrderForm" );
 		var v_tabdata = $('#Output').tabulator("getData");
+		var v_url="orders/save_order"; // Default $mode will be "new"
+
 		console.log(v_tabdata.length);
+
         orderform.validate();
 
         if(orderform.valid()===false || v_tabdata.length === 0)
@@ -471,12 +474,17 @@ $(document).ready(function()
             return;
         }
 
+		if($mode==="edit")
+		{
+			v_url="orders/update_order";
+		}
 		//console.log("order var above");
 		//$(this).attr("disabled","true");
+		//console.log("calling ajax");
 		$.ajax(
 		{
 	        type: "POST",
-	        url: "orders/save_order",
+	        url: v_url,
 	        dataType: 'json',
 	        data:
 			{
@@ -494,6 +502,7 @@ $(document).ready(function()
 	            console.log(res);
 	        }
 	    });
+		$(this).attr("disabled","disabled");
 
 
 	});

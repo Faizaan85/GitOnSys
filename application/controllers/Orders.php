@@ -55,23 +55,22 @@ class Orders extends CI_Controller
 		{
 			$data['title'] = "Edit Order";
 			// Load existing records here.
-			
-		}
 
+		}
         $data['js'] = array(
 			'tabulator-master/tabulator.js',
 			'js/neworder.js'
 		);
         //$data['clients'] =
-        $data['autorefresh']=FALSE;
+
         $this->load->view('templates/header',$data);
         $this->load->view('pages/neworder_view-tabulator.php');
         $this->load->view('templates/footer');
     }
-	public function edit_order();
-	{
-
-	}
+	// public function edit_order();
+	// {
+	//
+	// }
     public function save_order()
     {
 		// Load models.

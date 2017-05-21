@@ -21,23 +21,36 @@
                 <label for="Lpo">LPO: </label>
                 <input type="text" name="Lpo" id="Lpo" class="form-control" accesskey="l" onkeyup='whichButton(event.keyCode, "Part_no")'>
             </div>
-            <div class="col-sm-4 col-md-4 col-lg-4">
+            <div class="col-sm-2 col-md-2 col-lg-2">
                 <label for="Cdate">Date: </label>
                 <input type="date" name="Cdate" id="Cdate" class="form-control" tabindex="0" value="<?php echo date('Y-m-d'); ?>" />
             </div>
+
         </form>
     </div>
 	<div>
         <hr>
     </div>
-	<div class="">
+	<div class="row">
 		<table id="Output" class="table table-striped table-bordered">
 
 	    </table>
 	</div>
-    <div>
+	<div class="row">
+		<div class="col-sm-2 col-md-2 col-lg-2">
+			<label for="totalAmount">Total Amount:</label>
+			<input type="number" name="totalAmount" id="totalAmount" value="0.00" disabled>
+		</div>
+		<div class="col-sm-2 col-md-2 col-lg-2">
+			<label for="discount">Discount:</label>
+			<input type="number" name="discount" id="discount" value="0.00">
+		</div>
+		<div class="col-sm-2 col-md-2 col-lg-2">
+			<label for="netAmount">Net Amount:</label>
+			<input type="number" name="netAmount" id="netAmount" value="0.00" disabled>
+		</div>
+	</div>
         <hr>
-    </div>
     <div class="row">
         <form id="AddRowForm">
             <div class="form-group">
@@ -83,7 +96,7 @@
         <div class="col-sm-6 col-sm-offset-4">
             <input type="button" id="save" accesskey="s" class="btn btn-primary" value="Save (F2)">
             <input type="button" id="cancel" accesskey="c" class="btn btn-warning" value="Cancel (F4)" onclick="CancelOrder()">
-            <input type="button" id="total" class="btn btn-info" value="0.00">
+
             <button type="button" id="print" class="btn btn-info hidden" value="Print">Print</button>
         </div>
     </div>

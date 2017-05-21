@@ -14,16 +14,18 @@ I realise the name is crappy but not gonna change as it is gonna be difficult. -
         <div class="col-sm-3">
             <span class="row2">LPO: <?php echo $orderinfo['OmLpo']; ?></span>
         </div>
-		
+
         <div class="col-sm-3">
-            <span class="row1">Date: <?php echo date("d-m-Y",strtotime($orderinfo['OmCreatedOn'])); ?></span>
+            <span class="row1">Date: <?php echo date("d-m-Y H:i:s",strtotime($orderinfo['OmCreatedOn'])); ?></span>
         </div>
     </div>
     <hr>
     <?php $Amount = 0; ?>
     <div class="row">
         <button type="button" id="print" class="btn btn-info hidden-print" value="Print">Print</button>
-	<label id="TotAmount" class="pull-right"> </label>
+		<label id="" class="">Amt: <?php echo $orderinfo['OmAmount']?></label>
+		<label id="" class=""> - Discount: <?php echo $orderinfo['OmDiscount']?></label>
+		<label id="TotAmount" class="pull-right"> </label>
     </div>
 
     <div class="row">
@@ -38,6 +40,7 @@ I realise the name is crappy but not gonna change as it is gonna be difficult. -
                 <th>L-Qty</th>
                 <th>T-Qty</th>
                 <th>Price</th>
+				<th>Amount</th>
             </tr>
         </thead>
         <tbody>
@@ -72,6 +75,7 @@ I realise the name is crappy but not gonna change as it is gonna be difficult. -
                 <td class="LQty"><?php echo $item['OiLeftQty']; ?></td>
                 <td class="TQty"><?php echo $item['OiTotalQty']; ?></td>
                 <td class="Price"><?php echo $item['OiPrice']?></td>
+				<td class="Amount"><?php echo ($item['OiAmount'])?></td>
 				<?php
 					if($item['OiStatus']!=2)
 					{
@@ -85,4 +89,4 @@ I realise the name is crappy but not gonna change as it is gonna be difficult. -
     </table>
     </div>
 </div>
-<label id="TotAmountHidden" hidden><?php echo ($Amount); ?></label>
+<label id="TotAmountHidden" hidden><?php echo ($Amount - $orderinfo['OmDiscount']); ?></label>

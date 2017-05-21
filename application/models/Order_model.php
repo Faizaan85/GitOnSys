@@ -5,28 +5,29 @@
         {
 //            $this->load->database();
         }
-
+		// Get ordermaster data
         public function get_orders($cond = "ALL") //
         {
             if($cond == "ALL")
             {
-				$this->db->select('OmId, OmCompanyName, OmCreatedOn, OmLpo, OmStatus, OmStore1, OmStore2, OmPrinted, OmCreatedBy');
+				//$this->db->select('OmId, OmCompanyName, OmLpo, OmStatus, OmStore1, OmStore2, OmPrinted, OmCreatedOn, OmCreatedBy');
 				$yesterday = date("Y-m-d",strtotime("-2 day"));
-				$whereCondition = "OmCreatedOn > '".$yesterday."' OR OmPrinted = 0";
+				$whereCondition = "OmCreatedOn > '".$yesterday."' OR OmPrinted = 0 AND OmIsDeleted = 0";
 				$this->db->where($whereCondition);
                 $query = $this->db->order_by('OmId','DESC')->get('ordermaster_user');
                 return $query->result_array();
             }
             else
             {
-                $query = $this->db->get_where('ordermaster_user', array('OmId'=>$cond));
+                $query = $this->db->get_where('ordermaster_user', array('OmId'=>$cond, 'OmIsDeleted' => 0));
                 return $query->row_array();
             }
 
         }
+		// Get orderitems data
         public function get_order($omid)
         {
-            $query = $this->db->get_where('order_details', array('OiOmId'=>$omid));
+            $query = $this->db->get_where('order_details', array('OiOmId'=>$omid, 'OiIsDeleted' => 0));
             return $query->result_array();
         }
         public function post_order($userid)
@@ -36,6 +37,8 @@
 	            'OmCompanyName' => $this->input->post('name'),
 	            'OmCreatedOn' => $this->input->post('date'),
 	            'OmLpo' => $this->input->post('lpo'),
+				'OmDiscount' => $this->input->post('discount'),
+				'OmAmount' => $this->input->post('amount'),
 				'OmCreatedBy' => $userid
 	        );
 			// Array for orderitems

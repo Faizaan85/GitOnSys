@@ -43,34 +43,33 @@ class Orders extends CI_Controller
         }
         $this->load->view('templates/footer');
     }
-    public function create_new_order($mode="new")
+    public function create_new_order()
     {
+		// load client list for dropdown
         $this->load->model('client_model');
         $data['clients'] = $this->client_model->get_clients();
-		if($mode === "new")
-		{
-			$data['title'] = "New Order";
-		}
-		else
-		{
-			$data['title'] = "Edit Order";
-			// Load existing records here.
-
-		}
+		$data['title'] = "New Order";
+		// Specify which Js files to load.
         $data['js'] = array(
 			'tabulator-master/tabulator.js',
 			'js/neworder.js'
 		);
-        //$data['clients'] =
+
 
         $this->load->view('templates/header',$data);
         $this->load->view('pages/neworder_view-tabulator.php');
         $this->load->view('templates/footer');
     }
-	// public function edit_order();
-	// {
-	//
-	// }
+	public function edit_order()
+	{
+		//this function means mode is edit
+		// We wont need clients list as client name cannot be changed.
+		// First we need to fetch all records of the order and then set the order to is modifying.
+		$orderId = $this->input->post('$');
+		// then load the views
+
+
+	}
     public function save_order()
     {
 		// Load models.

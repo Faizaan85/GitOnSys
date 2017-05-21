@@ -8,7 +8,7 @@ I realise the name is crappy but not gonna change as it is gonna be difficult. -
 	            <h3 id="omid" class="row1" data-omid="<?php echo ($orderinfo['OmId']); ?>">Order #: <?php echo ($orderinfo['OmId']); ?></h3>
 	        </div>
 	        <div class="col-xs-6 col-md-6 col-lg-6">
-	            <h3 class="row1">Date: <?php echo date("d-m-Y",strtotime($orderinfo['OmCreatedOn'])); ?></h3>
+	            <h3 class="row1">Date: <?php echo date("d-m-Y H:i:s",strtotime($orderinfo['OmCreatedOn'])); ?></h3>
 	        </div>
 	    </div>
 	    <div class="row">

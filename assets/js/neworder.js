@@ -14,6 +14,7 @@ function calcTotal(colName, resultName)
 			v_total = parseFloat(v_total) + parseFloat($(this).attr("data-value"));
 		}
 	});
+
 	$("#"+resultName).val( parseFloat(v_total).toFixed(2));
 }
 
@@ -40,7 +41,7 @@ function orderTable(tabName)
 				onClick:function(e, cell, val, row)
 				{
 					$(tabName).tabulator("deleteRow", val);
-					calcTotal("record","total");
+					calcTotal("record","totalAmount");
 				}
 			},
 			{
@@ -191,7 +192,7 @@ function orderTable(tabName)
 			{
 				$(tabName).tabulator("updateData",[{partno:data.partno, supplierno:data.supplierno, description:data.description, qtyr:data.qtyr, qtyl:data.qtyl, totalqty:data.totalqty, price:data.price, amount:data.amount, tgp:data.tgp, state:"insert", oiid:0}]);
 			}
-			calcTotal("record","total");
+			calcTotal("record","totalAmount");
 
 		},
 	});
@@ -280,7 +281,7 @@ function whichButton(keyCode,str)
 			// Success Return
 			$('#Desc_').val(data.DESC);
 			$('#Supplier_no').val(data.SSNO);
-			$('#Price_').val(data.SALES_PRIC);
+			$('#Price_').attr("placeholder",data.SALES_PRIC);
 			$('#Price_').attr("data-tgp",data.UNIT_COST);
 		}).fail(function(){
 			// Failed Return
@@ -308,8 +309,7 @@ function clearInput()
 	document.getElementById("Qty_R").value="0";
 	document.getElementById("Qty_L").value="0";
 	document.getElementById("Total_").value="0";
-	document.getElementById("Price_").value="";
-    $('#Price_').attr("data-tgp","-1");
+    $('#Price_').attr("data-tgp","-1").attr("placeholder",0);
 
 
 }
@@ -400,10 +400,18 @@ function addRow(tableID)
 			$my_counter +=1;
 			$('#'+tableID).tabulator('addRow',{select:$my_counter, partno:v_partno, supplierno:v_supplierno, description:v_desc, qtyr:v_qtyr, qtyl:v_qtyl, totalqty:v_qtyt, price:v_price, amount:0, tgp: v_price_tgp, state:"insert", oiid:0});
 		}
-
-
-
-		calcTotal("record","total");
+		// var v_d = new Date();
+		// var v_date = $('#Cdate').val(),
+		// v_hour = v_d.getHours(),
+		// v_min = v_d.getMinutes(),
+		// v_sec = v_d.getSeconds();
+		//
+		// v_date = v_date.split('-');
+		//
+		// var v_finaldate = v_date[0]+"-"+parseInt(v_date[1], 10) - 1+"-"+v_date[2]+" "+v_hour+":"+v_min+":"+v_sec;
+		// console.log(v_date);
+		// console.log(v_finaldate);
+		calcTotal("record","totalAmount");
 
     }
 }
@@ -435,7 +443,24 @@ $(document).ready(function()
 		$("#Total_").val(parseInt($("#Qty_L").val())+parseInt($("#Qty_R").val()));
 	});
 	//total qty change
+	// Discount value change
+	$('#discount').on('blur',function(){
+		var v_total = parseFloat($('#totalAmount').val()).toFixed(2);
+		var v_discount = parseFloat($(this).val()).toFixed(2);
+		console.log(v_total);
+		console.log(v_discount);
+		if(parseFloat(v_discount) >= parseFloat(v_total))
+		{
+			$(this).val(0.00);
+			alert("Discount amount cannot be equal or greater than total amount");
+		}
+		else if (v_discount<0)
+		{
+			$(this).val(0.00);
+		}
+		$('#netAmount').val(parseFloat(v_total).toFixed(2) - parseFloat(v_discount).toFixed(2));
 
+	});
 	//remove record function
 	$("#Output").on('click','.record',function(){
 		var indexval = $(this,"td:first").html() - 1;
@@ -481,6 +506,16 @@ $(document).ready(function()
 		//console.log("order var above");
 		//$(this).attr("disabled","true");
 		//console.log("calling ajax");
+		var v_d = new Date();
+		var v_date = $('#Cdate').val(),
+		v_hour = v_d.getHours(),
+		v_min = v_d.getMinutes(),
+		v_sec = v_d.getSeconds();
+
+		v_date = v_date.split('-');
+
+		var v_finaldate = v_date[0]+"-"+v_date[1]+"-"+v_date[2]+" "+v_hour+":"+v_min+":"+v_sec;
+		console.log(v_finaldate);
 		$.ajax(
 		{
 	        type: "POST",
@@ -490,7 +525,9 @@ $(document).ready(function()
 			{
 	            name: $('#Qname').val().toUpperCase(),
 	            lpo: $('#Lpo').val().toUpperCase(),
-	            date: $('#Cdate').val(),
+	            date: v_finaldate,
+				amount: $('#totalAmount').val(),
+				discount: parseFloat($('#discount').val()).toFixed(2),
 				username: $('#username').attr("data-username"),
 	            orderdata: v_tabdata
 	        },

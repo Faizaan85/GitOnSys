@@ -33,7 +33,7 @@
 
     <script src="<?php echo base_url(); ?>assets/js/jqvalid/dist/jquery.validate.js"></script>
 
-	
+
 
     <script src="<?php echo base_url();?>assets/js/shortcut.js"></script>
 
@@ -179,7 +179,7 @@
 					<li class="dropdown">
 						<a href="#" id="username" data-username="<?php echo ($this->session->username) ?>" data-level="<?php echo ($this->session->level) ?>" data-storelevel="<?php echo ($this->session->storelevel) ?>" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo ($this->session->username) ?><span class="caret"></span></a>
 						<ul class="dropdown-menu">
-							<li><a href="#">Profile</a></li>
+							<li><a href="pages/profile">Profile</a></li>
 							<li><a href="#">Settings</a></li>
 							<li><a href="#">Something else here</a></li>
 							<li role="separator" class="divider"></li>
